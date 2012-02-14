@@ -10,6 +10,7 @@ from requests.exceptions import ConnectionError
 
 DOMAIN = 'beta.betfair.com'
 HTTP_DOMAIN = 'http://' + DOMAIN
+AGENT = 'Parker/0.5 TimboSpider -- My spidey sense is tingling...'
 
 URLS = [
     u'http://beta.betfair.com/football'
@@ -53,10 +54,13 @@ def process_url_stack(stack):
     writer = csv.writer(
         open('sportsng-spidered.csv', 'wb')
     )
+    headers = {
+        'User-Agent': AGENT
+    }
 
     for url in stack:
         try:
-            r = requests.get(url)
+            r = requests.get(url, headers=headers)
         except ConnectionError:
             output_data(
                 writer,
