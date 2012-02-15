@@ -77,7 +77,10 @@ def process_url_stack(stack):
 
             scripts = soup.findAll('script')
             size = int(sys.getsizeof(r.raw.data))
-            configsize = int(sys.getsizeof(str(scripts[-1])))
+            if len(scripts) > 0:
+                configsize = int(sys.getsizeof(str(scripts[-1])))
+            else:
+                configsize = 0
 
             output_data(
                 writer,
