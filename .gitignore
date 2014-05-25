@@ -1,1 +1,8 @@
 *.lock
+
+#--------------------
+# Puppet modules included by Puppetfile
+#--------------------
+
+puppet/.tmp
+puppet/modules/user

@@ -21,10 +21,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         shell.inline = "cd #{GUEST_LOCATION}/puppet && librarian-puppet update"
     end
 
-    # config.vm.provision :puppet do |puppet|
-    #     puppet.options = "-v"
-    #     puppet.manifests_path = "puppet"
-    #     puppet.manifest_file  = "base.pp"
-    #     puppet.module_path = "puppet/modules"
-    # end
+    config.vm.provision :puppet do |puppet|
+        puppet.options = "-v"
+        puppet.manifests_path = "puppet/manifests"
+        puppet.manifest_file  = "dev.pp"
+        puppet.module_path = "puppet/modules"
+    end
 end
