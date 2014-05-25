@@ -17,6 +17,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         my_vm.customize ["modifyvm", :id, "--memory", MEMORY]
     end
 
+    config.vm.provision :shell do |shell|
+        shell.inline = "cd #{GUEST_LOCATION}/puppet && librarian-puppet update"
+    end
+
     # config.vm.provision :puppet do |puppet|
     #     puppet.options = "-v"
     #     puppet.manifests_path = "puppet"
