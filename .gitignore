@@ -5,4 +5,5 @@
 #--------------------
 
 puppet/.tmp
+puppet/modules/core-env
 puppet/modules/user

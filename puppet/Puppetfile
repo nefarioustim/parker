@@ -3,3 +3,7 @@ forge "http://forge.puppetlabs.com"
 mod "nefarioustim/user",
     :git => "git://github.com/nefarioustim/puppet-manifests.git",
     :path => "modules/user"
+
+mod "nefarioustim/core-env",
+    :git => "git://github.com/nefarioustim/puppet-manifests.git",
+    :path => "modules/core-env"
