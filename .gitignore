@@ -7,3 +7,6 @@
 puppet/.tmp
 puppet/modules/core-env
 puppet/modules/user
+puppet/modules/redis
+puppet/modules/python
+puppet/modules/supervisorprog
