@@ -1,12 +1,20 @@
 forge "http://forge.puppetlabs.com"
 
+mod "nefarioustim/core-env",
+    :git => "git://github.com/nefarioustim/puppet-manifests.git",
+    :path => "modules/core-env"
+
+mod "nefarioustim/apt",
+    :git => "git://github.com/nefarioustim/puppet-manifests.git",
+    :path => "modules/apt"
+
 mod "nefarioustim/user",
     :git => "git://github.com/nefarioustim/puppet-manifests.git",
     :path => "modules/user"
 
-mod "nefarioustim/core-env",
+mod "nefarioustim/libxml",
     :git => "git://github.com/nefarioustim/puppet-manifests.git",
-    :path => "modules/core-env"
+    :path => "modules/libxml"
 
 mod "nefarioustim/redis",
     :git => "git://github.com/nefarioustim/puppet-manifests.git",
