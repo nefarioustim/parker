@@ -1,4 +1,5 @@
 mock
 pyquery
 pytest
+pytest-cov
 requests
