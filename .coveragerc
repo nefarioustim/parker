@@ -5,4 +5,4 @@ source =
 
 [report]
 omit =
-    *test-suite/*
+    *test/*
