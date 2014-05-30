@@ -1,4 +1,8 @@
 *.lock
+bin/
+include/
+lib/
+local/
 
 #--------------------
 # Puppet modules included by Puppetfile
@@ -6,7 +10,9 @@
 
 puppet/.tmp
 puppet/modules/core-env
+puppet/modules/apt
 puppet/modules/user
+puppet/modules/libxml
 puppet/modules/redis
 puppet/modules/python
 puppet/modules/supervisorprog
