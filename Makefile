@@ -2,9 +2,7 @@ SHELL := /bin/bash
 export PATH := $(shell pwd)/bin:$(PATH)
 export PYTHONPATH := $(shell pwd):$(PYTHONPATH)
 
-all: clean-pyc
-
-install: pip
+install: clean-pyc pip
 
 ./bin ./lib ./local ./include:
 	virtualenv .

@@ -27,4 +27,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         puppet.manifest_file  = "dev.pp"
         puppet.module_path = "puppet/modules"
     end
+
+    config.vm.provision :shell do |shell|
+        shell.inline = "cd #{GUEST_LOCATION} && make install"
+    end
 end
