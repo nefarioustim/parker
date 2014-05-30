@@ -10,7 +10,7 @@ of configured sites.
 from setuptools import setup
 from pip.req import parse_requirements
 
-version_file = open(os.path.join(mypackage_root_dir, 'VERSION'))
+version_file = open('VERSION')
 version = version_file.read().strip()
 
 install_reqs = parse_requirements('requirements.txt')
