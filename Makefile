@@ -8,7 +8,7 @@ install: clean-pyc pip
 	virtualenv .
 
 pip: ./bin ./lib ./local ./include
-	pip install -r requirements.txt
+	pip install -e .
 
 clean-pyc:
 	find . -name '*.pyc' -delete
