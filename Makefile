@@ -4,6 +4,9 @@ export PYTHONPATH := $(shell pwd):$(PYTHONPATH)
 
 install: clean-pyc pip
 
+test: install
+	py.test -sv --cov parker test
+
 ./bin ./lib ./local ./include:
 	virtualenv .
 
