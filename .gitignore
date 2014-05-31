@@ -6,6 +6,8 @@ include/
 lib/
 local/
 
+.coverage
+
 #--------------------
 # Puppet modules included by Puppetfile
 #--------------------
