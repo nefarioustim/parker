@@ -1,13 +1,11 @@
-"""Test the HTTP client."""
 # -*- coding: utf-8 -*-
+"""Test the HTTP client."""
 
-from ..factories import ClientFactory
-from ..client import Client
+from parker import client
 
 
-def test_client_factory():
+def test_client_creation():
     """Test client factory creates a client object."""
-    client_factory = ClientFactory()
-    test_client = client_factory.get()
+    test_client = client.get_instance()
 
-    assert isinstance(test_client, Client) is True
+    assert isinstance(test_client, client.Client) is True
