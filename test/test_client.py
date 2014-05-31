@@ -18,7 +18,7 @@ def client_fixture(monkeypatch):
 
 
 def test_client_creation():
-    """Test client factory creates a client object."""
+    """Test client.get_instance creates a Client object."""
     test_client = client.get_instance()
     expected_repr = "<class 'parker.client.Client'>(%s)" % (
         test_client.headers["user_agent"]
@@ -29,7 +29,7 @@ def test_client_creation():
 
 
 def test_client_get(client_fixture):
-    """Test client object get method."""
+    """Test client.get calls Requests' get method with the correct URI."""
     test_client = client_fixture
     response = test_client.get(TEST_URI)
 
