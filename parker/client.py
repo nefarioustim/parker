@@ -16,7 +16,6 @@ def get_instance():
         instance = _instances(user_agent)
     except:
         instance = Client(user_agent)
-    finally:
         _instances[user_agent] = instance
 
     return instance
