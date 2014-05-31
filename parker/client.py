@@ -10,7 +10,9 @@ _instances = dict()
 def get_instance():
     """Return an instance of Client."""
     config = load_config('client')
-    user_agent = random.randint(0, len(config['user-agents']) - 1)
+    user_agent = config['user-agents'][
+        random.randint(0, len(config['user-agents']) - 1)
+    ]
 
     try:
         instance = _instances(user_agent)
@@ -39,6 +41,6 @@ class Client(object):
         """Constructor."""
         self.headers["user_agent"] = user_agent
 
-    def __repr__():
+    def __repr__(self):
         """Return an unambiguous representation."""
-        return "%s(%r)" % (self.__class__, self.headers["user_agent"])
+        return "%s(%s)" % (self.__class__, self.headers["user_agent"])
