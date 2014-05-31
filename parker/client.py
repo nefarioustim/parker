@@ -2,22 +2,37 @@
 """HTTP client for Parker."""
 
 import random
+import requests
 from .configloader import load_config
 
+DEFAULT_UA = "Parker"
 _instances = dict()
 
 
 def get_instance():
     """Return an instance of Client."""
     config = load_config('client')
-    user_agent = config['user-agents'][
-        random.randint(0, len(config['user-agents']) - 1)
-    ]
+    user_agents = config['user-agents']
+    proxies = config['proxies']
+
+    if len(user_agents) > 0:
+        user_agent = user_agents[
+            random.randint(0, len(user_agents) - 1)
+        ]
+    else:
+        user_agent = DEFAULT_UA
+
+    if len(proxies) > 0:
+        proxy = proxies[
+            random.randint(0, len(proxies) - 1)
+        ]
+    else:
+        proxy = None
 
     try:
         instance = _instances(user_agent)
     except:
-        instance = Client(user_agent)
+        instance = Client(user_agent, proxy)
         _instances[user_agent] = instance
 
     return instance
@@ -37,10 +52,26 @@ class Client(object):
         'pragma': 'no-cache'
     }
 
-    def __init__(self, user_agent):
+    def __init__(self, user_agent, proxy=False):
         """Constructor."""
         self.headers["user_agent"] = user_agent
+        self.proxy = proxy
 
     def __repr__(self):
         """Return an unambiguous representation."""
         return "%s(%s)" % (self.__class__, self.headers["user_agent"])
+
+    def get(self, uri, disable_proxy=False):
+        """Return Requests response to GET request."""
+        if not disable_proxy:
+            proxy = self.proxy
+        else:
+            proxy = False
+
+        return requests.get(
+            uri,
+            headers=self.headers,
+            allow_redirects=True,
+            cookies={},
+            proxies=proxy
+        )
