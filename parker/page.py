@@ -22,3 +22,7 @@ class Page(object):
     def __init__(self, uri):
         """Constructor."""
         self.uri = uri
+
+    def __repr__(self):
+        """Return an unambiguous representation."""
+        return "%s(%s)" % (self.__class__, self.uri)
