@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Test the Page object."""
 
-from parker import page
+from parker import page, client
 
 TEST_URI = "http://www.staples.co.uk/full-strip-stapler/cbs/412852.html"
 
@@ -14,4 +14,5 @@ def test_page_creation():
     )
 
     assert isinstance(test_page, page.Page) is True
+    assert isinstance(test_page.client, client.Client) is True
     assert test_page.__repr__() == expected_repr
