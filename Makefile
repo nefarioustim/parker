@@ -1,8 +1,8 @@
-.PHONY: install test clean-pyc clean-virtualenv
-
 SHELL := /bin/bash
 export PATH := $(shell pwd)/bin:$(PATH)
 export PYTHONPATH := $(shell pwd):$(PYTHONPATH)
+
+.PHONY: install test clean-pyc clean-virtualenv
 
 install: clean-pyc pip
 
