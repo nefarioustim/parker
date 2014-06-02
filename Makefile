@@ -6,13 +6,13 @@ export PYTHONPATH := $(shell pwd):$(PYTHONPATH)
 
 install: clean-pyc install-parker
 
+install-parker: ./bin ./lib ./local ./include
+	pip install -e .
+
 ./bin ./lib ./local ./include:
 	virtualenv .
 
-install-parker bin/py.test: ./bin ./lib ./local ./include
-	pip install -e .
-
-test: bin/py.test
+test:
 	py.test -sv --cov parker test
 
 clean-pyc:
