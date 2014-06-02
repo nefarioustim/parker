@@ -1,10 +1,12 @@
+.PHONY: install test clean-pyc clean-virtualenv
+
 SHELL := /bin/bash
 export PATH := $(shell pwd)/bin:$(PATH)
 export PYTHONPATH := $(shell pwd):$(PYTHONPATH)
 
 install: clean-pyc pip
 
-test: install
+test:
 	py.test -sv --cov parker test
 
 ./bin ./lib ./local ./include:
