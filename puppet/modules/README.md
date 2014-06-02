@@ -1,0 +1,1 @@
+This directory needs to be here or Vagrant will error.
