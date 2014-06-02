@@ -6,13 +6,13 @@ export PYTHONPATH := $(shell pwd):$(PYTHONPATH)
 
 install: clean-pyc pip
 
-test:
+test: bin/py.test
 	py.test -sv --cov parker test
 
 ./bin ./lib ./local ./include:
 	virtualenv .
 
-pip: ./bin ./lib ./local ./include
+pip bin/py.test: ./bin ./lib ./local ./include
 	pip install -e .
 
 clean-pyc:
