@@ -2,18 +2,18 @@ SHELL := /bin/bash
 export PATH := $(shell pwd)/bin:$(PATH)
 export PYTHONPATH := $(shell pwd):$(PYTHONPATH)
 
-.PHONY: install test clean-pyc clean-virtualenv
+.PHONY: install install-parker test clean-pyc clean-virtualenv
 
-install: clean-pyc pip
-
-test: bin/py.test
-	py.test -sv --cov parker test
+install: clean-pyc install-parker
 
 ./bin ./lib ./local ./include:
 	virtualenv .
 
-pip bin/py.test: ./bin ./lib ./local ./include
+install-parker bin/py.test: ./bin ./lib ./local ./include
 	pip install -e .
+
+test: bin/py.test
+	py.test -sv --cov parker test
 
 clean-pyc:
 	find . -name '*.pyc' -delete
