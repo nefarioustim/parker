@@ -75,3 +75,13 @@ class Client(object):
             cookies={},
             proxies=proxy
         )
+
+    def get_content(self, uri, disable_proxy=False):
+        """Return content from URI if Response status is good."""
+        permitted_status_codes = [200]
+        response = self.get(uri, disable_proxy)
+
+        if response.status_code in permitted_status_codes:
+            return response.content
+        else:
+            return False
