@@ -4,5 +4,6 @@ source =
     parker
 
 [report]
+show_missing = True
 omit =
     *test/*
