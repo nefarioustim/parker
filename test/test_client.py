@@ -14,7 +14,7 @@ TEST_STATUS_CODE = 200
 
 @pytest.fixture(scope="function")
 def client_fixture(monkeypatch):
-    """Test fixture to mock the requests.get call within the HTTP client."""
+    """Test fixture to ensure correct mocking for client."""
     mocked_response = Mock(
         spec=Response()
     )
