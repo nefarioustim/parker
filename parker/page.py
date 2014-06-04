@@ -25,7 +25,7 @@ def get_instance(uri, page_client=None):
 
 class Page(object):
 
-    """A Page."""
+    """A Page, as fetched from a client."""
 
     def __init__(self, uri, client):
         """Constructor."""
