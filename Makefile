@@ -6,11 +6,11 @@ export PYTHONPATH := $(shell pwd):$(PYTHONPATH)
 
 install: clean-pyc install-parker
 
-install-parker: ./bin ./lib ./local ./include
+install-parker: ./venv
 	pip install -e .
 
-./bin ./lib ./local ./include:
-	virtualenv .
+./venv:
+	virtualenv venv
 
 test:
 	py.test -sv --cov-config .coveragerc --cov-report term-missing --cov parker test
@@ -21,7 +21,4 @@ clean-pyc:
 	find . -name '*~' -delete
 
 clean-virtualenv:
-	rm -r ./bin
-	rm -r ./lib
-	rm -r ./local
-	rm -r ./include
+	rm -r ./venv
