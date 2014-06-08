@@ -1,0 +1,31 @@
+// This is an example configuration.
+{
+    // Unique identifier for this configuration
+    "id": "staples",
+    // Base URI of site
+    "base_uri": "http://www.staples.co.uk/",
+    // URI to start crawling from
+    "crawl_uri": "http://www.staples.co.uk/",
+    // Specific data for consumption
+    "data": {
+        "title": {
+            "selector": "",
+            "regex_filter": "",
+            "kv_ref": ""
+        }
+    },
+    // Key value type data for consumption
+    "key_value": {
+        "key_selector": "",
+        "val_selector": ""
+    },
+    // Breadcrumb trail for classification
+    "crumbs": {
+        "selector": "",
+        "regex_filter": ""
+    },
+    // Media related to stream download and store
+    "media": {
+        "selector": ""
+    }
+}
