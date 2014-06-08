@@ -4,13 +4,13 @@
 _instances = dict()
 
 
-def get_instance(uri):
+def get_instance(page, original, parsed):
     """Return an instance of ParsedPage."""
     try:
-        instance = _instances[uri]
+        instance = _instances[page.uri]
     except KeyError:
-        instance = ParsedPage(uri)
-        _instances[uri] = instance
+        instance = ParsedPage(page, original, parsed)
+        _instances[page.uri] = instance
 
     return instance
 
@@ -19,10 +19,12 @@ class ParsedPage(object):
 
     """A ParsedPage."""
 
-    def __init__(self, uri):
+    def __init__(self, page, original, parsed):
         """Constructor."""
-        self.uri = uri
+        self.page = page
+        self.original = original
+        self.parsed = parsed
 
     def __repr__(self):
         """Return an unambiguous representation."""
-        return "%s(%s)" % (self.__class__, self.uri)
+        return "%s(%s)" % (self.__class__, self.page.uri)
