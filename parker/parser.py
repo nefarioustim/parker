@@ -10,7 +10,7 @@ def parse(page_to_parse):
     if not isinstance(page_to_parse, page.Page):
         raise TypeError("parser.parse requires a parker.Page object.")
 
-    if not page_to_parse.content:
+    if page_to_parse.content is None:
         page_to_parse.fetch()
 
     return parsedpage.get_instance(
