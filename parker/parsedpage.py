@@ -28,3 +28,15 @@ class ParsedPage(object):
     def __repr__(self):
         """Return an unambiguous representation."""
         return "%s(%s)" % (self.__class__, self.page.uri)
+
+    def get_nodes_by_selector(self, selector, not_selector=None):
+        """Return a collection of filtered nodes.
+
+        Filtered based on the @selector and @not_selector parameters.
+        """
+        nodes = self.parsed(selector)
+
+        if not_selector is not None:
+            nodes = nodes.not_(not_selector)
+
+        return nodes
