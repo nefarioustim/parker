@@ -14,7 +14,7 @@ def parse(page_to_parse):
         page_to_parse.fetch()
 
     return parsedpage.get_instance(
-        page_to_parse,
-        page_to_parse.content,
-        PyQuery(page_to_parse.content, parser='html')
+        page=page_to_parse,
+        original=page_to_parse.content,
+        parsed=PyQuery(page_to_parse.content, parser='html')
     )
