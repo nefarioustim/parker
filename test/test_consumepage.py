@@ -10,7 +10,9 @@ from test_parsedpage import parsedpage_fixture
 import utils
 
 TEST_SELECTOR = "h1"
+TEST_REGEX = r"(\w+)"
 EXPECTED_VALUE = "Staples Full Strip Stapler"
+EXPECTED_FILTERED_VALUE = "Staples"
 
 
 @pytest.fixture(scope="function")
@@ -46,3 +48,16 @@ def test_consumepage_get_data_returns_expected_value_of_h1(
     actual_value = test_consumepage.get_data(TEST_SELECTOR)
 
     assert actual_value == EXPECTED_VALUE
+
+
+def test_consumepage_get_data_returns_expected_value_of_h1_with_regex(
+    consumepage_fixture
+):
+    """Test consumepage.get_data returns the expected value of the H1."""
+    test_consumepage = consumepage_fixture
+    actual_value = test_consumepage.get_data(
+        TEST_SELECTOR,
+        regex=TEST_REGEX
+    )
+
+    assert actual_value == EXPECTED_FILTERED_VALUE
