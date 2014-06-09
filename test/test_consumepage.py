@@ -50,7 +50,7 @@ def test_consumepage_get_data_returns_expected_value_of_h1(
     assert actual_value == EXPECTED_VALUE
 
 
-def test_consumepage_get_data_returns_expected_value_of_h1_with_regex(
+def test_consumepage_get_data_returns_expected_filtered_value_of_h1_with_regex(
     consumepage_fixture
 ):
     """Test consumepage.get_data returns the expected value of the H1."""
