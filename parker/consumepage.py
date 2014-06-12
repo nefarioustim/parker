@@ -62,7 +62,7 @@ class ConsumePage(ParsedPage):
 
         return text
 
-    def get_data(self, selector, regex=None, group=1):
+    def get_filtered_data_by_selector(self, selector, regex=None, group=1):
         """Return the text content of @selector.
 
         Filter text content by @regex and @group.

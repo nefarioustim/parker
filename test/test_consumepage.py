@@ -24,7 +24,7 @@ def consumepage_fixture(parsedpage_fixture):
     )
 
 
-def test_consumepage_get_instance_creates_consumepage_object(
+def test_get_instance_creates_consumepage_object(
     parsedpage_fixture
 ):
     """Test parsedpage.get_instance creates a ParsedPage object."""
@@ -40,22 +40,28 @@ def test_consumepage_get_instance_creates_consumepage_object(
     assert test_consumepage.__repr__() == expected_repr
 
 
-def test_consumepage_get_data_returns_expected_value_of_h1(
+def test_get_filtered_data_by_selector_returns_expected_value_of_h1(
     consumepage_fixture
 ):
-    """Test consumepage.get_data returns the expected value of the H1."""
+    """Test consumepage.get_filtered_data_by_selector.Ensure
+
+    Ensure returns the expected value of the H1.
+    """
     test_consumepage = consumepage_fixture
-    actual_value = test_consumepage.get_data(TEST_SELECTOR)
+    actual_value = test_consumepage.get_filtered_data_by_selector(TEST_SELECTOR)
 
     assert actual_value == EXPECTED_VALUE
 
 
-def test_consumepage_get_data_returns_expected_filtered_value_of_h1_with_regex(
+def test_get_filtered_data_by_selector_returns_expected_filtered_value_of_h1_with_regex(
     consumepage_fixture
 ):
-    """Test consumepage.get_data returns the expected value of the H1."""
+    """Test consumepage.get_filtered_data_by_selector.
+
+    Ensure returns the expected value of the H1 filtered by regex.
+    """
     test_consumepage = consumepage_fixture
-    actual_value = test_consumepage.get_data(
+    actual_value = test_consumepage.get_filtered_data_by_selector(
         TEST_SELECTOR,
         regex=TEST_REGEX
     )

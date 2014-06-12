@@ -32,7 +32,7 @@ def client_fixture(monkeypatch):
     return client.get_instance()
 
 
-def test_client_get_instance_creates_client_object():
+def test_get_instance_creates_client_object():
     """Test client.get_instance creates a Client object."""
     test_client = client.get_instance()
     expected_repr = "<class 'parker.client.Client'>(%s)" % (
@@ -43,7 +43,7 @@ def test_client_get_instance_creates_client_object():
     assert test_client.__repr__() == expected_repr
 
 
-def test_client_get_calls_requests_get_with_correct_uri(client_fixture):
+def test_get_calls_requests_get_with_correct_uri(client_fixture):
     """Test client.get calls requests.get with the correct URI."""
     test_client = client_fixture
     response = test_client.get(TEST_URI)
@@ -53,7 +53,7 @@ def test_client_get_calls_requests_get_with_correct_uri(client_fixture):
     assert called_uri == TEST_URI
 
 
-def test_client_get_content_returns_stubbed_content(client_fixture):
+def test_get_content_returns_stubbed_content(client_fixture):
     """Test client.get_content returns stubbed content."""
     test_client = client_fixture
     content = test_client.get_content(TEST_URI)

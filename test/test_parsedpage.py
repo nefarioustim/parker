@@ -23,7 +23,7 @@ def parsedpage_fixture(page_fixture):
     return parser.parse(test_page)
 
 
-def test_parsedpage_get_instance_creates_parsedpage_object(page_fixture):
+def test_get_instance_creates_parsedpage_object(page_fixture):
     """Test parsedpage.get_instance creates a ParsedPage object."""
     test_page = page_fixture
     test_parsedpage = parsedpage.get_instance(
@@ -39,7 +39,7 @@ def test_parsedpage_get_instance_creates_parsedpage_object(page_fixture):
     assert test_parsedpage.__repr__() == expected_repr
 
 
-def test_parsedpage_get_nodes_by_selector_returns_expected_nodes(
+def test_get_nodes_by_selector_returns_expected_nodes(
     parsedpage_fixture
 ):
     """Test ParsedPage.get_nodes_by_selector returns the expected nodes."""
@@ -49,7 +49,7 @@ def test_parsedpage_get_nodes_by_selector_returns_expected_nodes(
     assert len(test_nodes) == EXPECTED_NODES
 
 
-def test_parsedpage_get_nodes_by_selector_returns_expected_nodes_with_not(
+def test_get_nodes_by_selector_returns_expected_nodes_with_not(
     parsedpage_fixture
 ):
     """Test ParsedPage.get_nodes_by_selector returns the expected nodes."""
