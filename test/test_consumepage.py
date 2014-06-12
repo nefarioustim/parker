@@ -14,6 +14,8 @@ TEST_REGEX = r"(\w+)"
 TEST_KEY_SELECTOR = "#divSpecifications dd .l"
 TEST_VALUE_SELECTOR = "#divSpecifications dd .r"
 TEST_CRUMB_SELECTOR = "#skuBreadCrumbs span[itemprop=title]"
+TEST_MEDIA_SELECTOR = ".s7Thumbs img"
+TEST_MEDIA_ATTRIBUTE = "data-zoomimage"
 EXPECTED_VALUE = "Staples Full Strip Stapler"
 EXPECTED_FILTERED_VALUE = "Staples"
 EXPECTED_KV_DICT = {
@@ -27,6 +29,9 @@ EXPECTED_CRUMB_LIST = [
     u'Pens | Tape | Desk Supplies',
     u'Desktop Stationery | Clips | Accessories',
     u'Staplers'
+]
+EXPECTED_MEDIA_LIST = [
+    '//www.staples.co.uk/content/images/product/uk_412852_1_xnl.jpg'
 ]
 
 
@@ -115,3 +120,19 @@ def test_get_crumb_list_by_selector_returns_expected_list(
     )
 
     assert crumb_list == EXPECTED_CRUMB_LIST
+
+
+def test_get_media_list_by_selector_returns_expected_list(
+    consumepage_fixture
+):
+    """Test consumepage.get_media_list_by_selector.
+
+    Ensure returns the expected list of media.
+    """
+    test_consumepage = consumepage_fixture
+    media_list = test_consumepage.get_media_list_by_selector(
+        TEST_MEDIA_SELECTOR,
+        TEST_MEDIA_ATTRIBUTE
+    )
+
+    assert media_list == EXPECTED_MEDIA_LIST

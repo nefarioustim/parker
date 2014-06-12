@@ -98,8 +98,15 @@ class ConsumePage(ParsedPage):
     def get_crumb_list_by_selector(self, crumb_selector):
         """Return a list of crumbs."""
         return [
-            unicode(
-                self._get_text_from_node(crumb)
-            )
+            self._get_text_from_node(crumb)
             for crumb in self.parsedpage.get_nodes_by_selector(crumb_selector)
+        ]
+
+    def get_media_list_by_selector(
+        self, media_selector, media_attribute="src"
+    ):
+        """Return a list of media."""
+        return [
+            media.attrib[media_attribute]
+            for media in self.parsedpage.get_nodes_by_selector(media_selector)
         ]
