@@ -4,20 +4,19 @@
     "uri_start_crawl": "http://www.staples.co.uk/",
     "specific_data": {
         "title": {
-            "selector": "",
-            "regex_filter": "",
-            "kv_ref": ""
+            "selector": "h1",
+            "regex_filter": "(\\w+)"
         }
     },
     "key_value_data": {
-        "key_selector": "",
-        "value_selector": ""
+        "key_selector": "#divSpecifications dd .l",
+        "value_selector": "#divSpecifications dd .r"
     },
     "crumbs": {
-        "selector": "",
-        "regex_filter": ""
+        "selector": "#skuBreadCrumbs span[itemprop=title]"
     },
     "media": {
-        "selector": ""
+        "selector": ".s7Thumbs img",
+        "attribute": "data-zoomimage"
     }
 }
