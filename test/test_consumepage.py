@@ -13,6 +13,15 @@ TEST_SELECTOR = "h1"
 TEST_REGEX = r"(\w+)"
 EXPECTED_VALUE = "Staples Full Strip Stapler"
 EXPECTED_FILTERED_VALUE = "Staples"
+TEST_KEY_SELECTOR = "#divSpecifications dd .l"
+TEST_VALUE_SELECTOR = "#divSpecifications dd .r"
+EXPECTED_KV_DICT = {
+    u'Staple Compatibility :': u'26/06/2014',
+    u'Brands :': u'Staples',
+    u'Stapling Capacity (sheets) :': u'20 sheets',
+    u'Colour :': u'Black',
+    u'Quantity :': u'1'
+}
 
 
 @pytest.fixture(scope="function")
@@ -67,3 +76,19 @@ def test_get_filtered_data_by_selector_returns_expected_filtered_value_of_h1_wit
     )
 
     assert actual_value == EXPECTED_FILTERED_VALUE
+
+
+def test_get_key_value_data_by_selectors_returns_expected_dict(
+    consumepage_fixture
+):
+    """Test consumepage.get_key_value_data_by_selectors.
+
+    Ensure returns the expected dictionary of data.
+    """
+    test_consumepage = consumepage_fixture
+    key_value_dict = test_consumepage.get_key_value_data_by_selectors(
+        TEST_KEY_SELECTOR,
+        TEST_VALUE_SELECTOR
+    )
+
+    assert key_value_dict == EXPECTED_KV_DICT

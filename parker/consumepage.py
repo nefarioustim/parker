@@ -68,15 +68,29 @@ class ConsumePage(ParsedPage):
         Filter text content by @regex and @group.
         """
         nodes = self.parsedpage.get_nodes_by_selector(selector)
-        values = [
+        data = [
             self._get_text_from_node(node, regex, group)
             for node in nodes
             if self._get_text_from_node(node, regex, group)
         ]
 
-        if len(values) == 0:
+        if len(data) == 0:
             return None
-        elif len(values) == 1:
-            return values[0]
+        elif len(data) == 1:
+            return data[0]
         else:
-            return values
+            return data
+
+    def get_key_value_data_by_selectors(self, key_selector, value_selector):
+        """Return a dictionary of key value data."""
+        key_nodes = self.parsedpage.get_nodes_by_selector(key_selector)
+        value_nodes = self.parsedpage.get_nodes_by_selector(value_selector)
+
+        keys = [
+            self._get_text_from_node(node) for node in key_nodes
+        ]
+        vals = [
+            self._get_text_from_node(node) for node in value_nodes
+        ]
+
+        return dict(zip(keys, vals))
