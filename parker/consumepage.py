@@ -81,7 +81,7 @@ class ConsumePage(ParsedPage):
         else:
             return data
 
-    def get_key_value_data_by_selectors(self, key_selector, value_selector):
+    def get_key_value_dict_by_selectors(self, key_selector, value_selector):
         """Return a dictionary of key value data."""
         key_nodes = self.parsedpage.get_nodes_by_selector(key_selector)
         value_nodes = self.parsedpage.get_nodes_by_selector(value_selector)

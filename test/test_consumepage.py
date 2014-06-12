@@ -91,15 +91,15 @@ def test_get_filtered_data_by_selector_returns_expected_filtered_value_of_h1(
     assert actual_value == EXPECTED_FILTERED_VALUE
 
 
-def test_get_key_value_data_by_selectors_returns_expected_dict(
+def test_get_key_value_dict_by_selectors_returns_expected_dict(
     consumepage_fixture
 ):
-    """Test consumepage.get_key_value_data_by_selectors.
+    """Test consumepage.get_key_value_dict_by_selectors.
 
     Ensure returns the expected dictionary of data.
     """
     test_consumepage = consumepage_fixture
-    key_value_dict = test_consumepage.get_key_value_data_by_selectors(
+    key_value_dict = test_consumepage.get_key_value_dict_by_selectors(
         TEST_KEY_SELECTOR,
         TEST_VALUE_SELECTOR
     )
