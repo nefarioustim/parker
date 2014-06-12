@@ -94,3 +94,10 @@ class ConsumePage(ParsedPage):
         ]
 
         return dict(zip(keys, vals))
+
+    def get_crumb_list_by_selector(self, crumb_selector):
+        """Return a list of crumbs."""
+        return [
+            unicode(self._get_text_from_node(crumb).strip(u'\xa0/'))
+            for crumb in self.parsedpage.get_nodes_by_selector(crumb_selector)
+        ]

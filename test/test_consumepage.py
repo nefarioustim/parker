@@ -11,10 +11,11 @@ import utils
 
 TEST_SELECTOR = "h1"
 TEST_REGEX = r"(\w+)"
-EXPECTED_VALUE = "Staples Full Strip Stapler"
-EXPECTED_FILTERED_VALUE = "Staples"
 TEST_KEY_SELECTOR = "#divSpecifications dd .l"
 TEST_VALUE_SELECTOR = "#divSpecifications dd .r"
+TEST_CRUMB_SELECTOR = "#skuBreadCrumbs span[itemprop=title]"
+EXPECTED_VALUE = "Staples Full Strip Stapler"
+EXPECTED_FILTERED_VALUE = "Staples"
 EXPECTED_KV_DICT = {
     u'Staple Compatibility :': u'26/06/2014',
     u'Brands :': u'Staples',
@@ -22,6 +23,11 @@ EXPECTED_KV_DICT = {
     u'Colour :': u'Black',
     u'Quantity :': u'1'
 }
+EXPECTED_CRUMB_LIST = [
+    u'Pens | Tape | Desk Supplies',
+    u'Desktop Stationery | Clips | Accessories',
+    u'Staplers'
+]
 
 
 @pytest.fixture(scope="function")
@@ -52,17 +58,19 @@ def test_get_instance_creates_consumepage_object(
 def test_get_filtered_data_by_selector_returns_expected_value_of_h1(
     consumepage_fixture
 ):
-    """Test consumepage.get_filtered_data_by_selector.Ensure
+    """Test consumepage.get_filtered_data_by_selector.
 
     Ensure returns the expected value of the H1.
     """
     test_consumepage = consumepage_fixture
-    actual_value = test_consumepage.get_filtered_data_by_selector(TEST_SELECTOR)
+    actual_value = test_consumepage.get_filtered_data_by_selector(
+        TEST_SELECTOR
+    )
 
     assert actual_value == EXPECTED_VALUE
 
 
-def test_get_filtered_data_by_selector_returns_expected_filtered_value_of_h1_with_regex(
+def test_get_filtered_data_by_selector_returns_expected_filtered_value_of_h1(
     consumepage_fixture
 ):
     """Test consumepage.get_filtered_data_by_selector.
@@ -92,3 +100,18 @@ def test_get_key_value_data_by_selectors_returns_expected_dict(
     )
 
     assert key_value_dict == EXPECTED_KV_DICT
+
+
+def test_get_crumb_list_by_selector_returns_expected_list(
+    consumepage_fixture
+):
+    """Test consumepage.get_crumb_list_by_selector.
+
+    Ensure returns the expected list of crumbs.
+    """
+    test_consumepage = consumepage_fixture
+    crumb_list = test_consumepage.get_crumb_list_by_selector(
+        TEST_CRUMB_SELECTOR
+    )
+
+    assert crumb_list == EXPECTED_CRUMB_LIST
