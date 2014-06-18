@@ -43,6 +43,4 @@ def test_load_site_config_loads_json_into_a_dict():
     """Test 'staples' test content is loaded correctly."""
     site_config = load_site_config(TEST_SITE_NAME)
 
-    print site_config
-
     assert site_config == EXPECTED_SITE_CONFIG
