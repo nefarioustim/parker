@@ -18,7 +18,7 @@ def get_instance(parsedpage):
     return instance
 
 
-class ConsumePage(ParsedPage):
+class ConsumePage(object):
 
     """A ConsumePage."""
 
