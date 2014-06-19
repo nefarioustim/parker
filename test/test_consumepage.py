@@ -4,6 +4,7 @@
 import pytest
 from pyquery import PyQuery
 from parker import parser, consumepage
+from parker.configloader import load_site_config
 from test_client import client_fixture
 from test_page import page_fixture
 from test_parsedpage import parsedpage_fixture
@@ -16,6 +17,9 @@ TEST_VALUE_SELECTOR = "#divSpecifications dd .r"
 TEST_CRUMB_SELECTOR = "#skuBreadCrumbs span[itemprop=title]"
 TEST_MEDIA_SELECTOR = ".s7Thumbs img"
 TEST_MEDIA_ATTRIBUTE = "data-zoomimage"
+TEST_CONFIG_NAME = "staples"
+TEST_CONFIG = load_site_config(TEST_CONFIG_NAME)
+TEST_DATA_CONFIG = TEST_CONFIG['specific_data']
 EXPECTED_VALUE = "Staples Full Strip Stapler"
 EXPECTED_FILTERED_VALUE = "Staples"
 EXPECTED_KV_DICT = {
@@ -33,6 +37,10 @@ EXPECTED_CRUMB_LIST = [
 EXPECTED_MEDIA_LIST = [
     '//www.staples.co.uk/content/images/product/uk_412852_1_xnl.jpg'
 ]
+EXPECTED_DATA_DICT = {
+    'title': 'Full Strip Stapler',
+    'sku': 'WW-412852'
+}
 
 
 @pytest.fixture(scope="function")
@@ -136,3 +144,16 @@ def test_get_media_list_by_selector_returns_expected_list(
     )
 
     assert media_list == EXPECTED_MEDIA_LIST
+
+
+def test_get_data_dict_from_config_returns_expected_dict(
+    consumepage_fixture
+):
+    """Test consumepage.get_data_dict_from_config.
+
+    Ensure returns the expected dictionary of data.
+    """
+    test_consumepage = consumepage_fixture
+    data_dict = test_consumepage.get_data_dict_from_config(TEST_DATA_CONFIG)
+
+    assert data_dict == EXPECTED_DATA_DICT

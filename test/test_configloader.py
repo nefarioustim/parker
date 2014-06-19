@@ -15,7 +15,11 @@ EXPECTED_SITE_CONFIG = {
     "specific_data": {
         "title": {
             "selector": "h1",
-            "regex_filter": "(\\w+)"
+            "regex_filter": "Staples ([a-zA-Z0-9 ]+)"
+        },
+        "sku": {
+            "selector": ".skuDetails .iNumber",
+            "regex_filter": "([a-zA-Z0-9\\-]+)$"
         }
     },
     "key_value_data": {

@@ -110,3 +110,15 @@ class ConsumePage(ParsedPage):
             media.attrib[media_attribute]
             for media in self.parsedpage.get_nodes_by_selector(media_selector)
         ]
+
+    def get_data_dict_from_config(self, config_dict):
+        """Return a dictionary of data inferred from config_dict."""
+        return {
+            key: self.get_filtered_data_by_selector(
+                item_dict['selector'],
+                item_dict.get('regex_filter', None),
+                item_dict.get('regex_group', 1)
+            )
+            for key, item_dict in config_dict.iteritems()
+            if item_dict.get('selector', None) is not None
+        }
