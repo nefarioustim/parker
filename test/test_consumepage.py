@@ -10,8 +10,6 @@ from test_page import page_fixture
 from test_parsedpage import parsedpage_fixture
 import utils
 
-TEST_SELECTOR = "h1"
-TEST_REGEX = r"(\w+)"
 TEST_KEY_SELECTOR = "#divSpecifications dd .l"
 TEST_VALUE_SELECTOR = "#divSpecifications dd .r"
 TEST_CRUMB_SELECTOR = "#skuBreadCrumbs span[itemprop=title]"
@@ -20,8 +18,6 @@ TEST_MEDIA_ATTRIBUTE = "data-zoomimage"
 TEST_CONFIG_NAME = "staples"
 TEST_CONFIG = load_site_config(TEST_CONFIG_NAME)
 TEST_DATA_CONFIG = TEST_CONFIG['specific_data']
-EXPECTED_VALUE = "Staples Full Strip Stapler"
-EXPECTED_FILTERED_VALUE = "Staples"
 EXPECTED_KV_DICT = {
     u'Staple Compatibility :': u'26/06/2014',
     u'Brands :': u'Staples',
@@ -66,37 +62,6 @@ def test_get_instance_creates_consumepage_object(
 
     assert isinstance(test_consumepage, consumepage.ConsumePage) is True
     assert test_consumepage.__repr__() == expected_repr
-
-
-def test_get_filtered_data_by_selector_returns_expected_value_of_h1(
-    consumepage_fixture
-):
-    """Test consumepage.get_filtered_data_by_selector.
-
-    Ensure returns the expected value of the H1.
-    """
-    test_consumepage = consumepage_fixture
-    actual_value = test_consumepage.get_filtered_data_by_selector(
-        TEST_SELECTOR
-    )
-
-    assert actual_value == EXPECTED_VALUE
-
-
-def test_get_filtered_data_by_selector_returns_expected_filtered_value_of_h1(
-    consumepage_fixture
-):
-    """Test consumepage.get_filtered_data_by_selector.
-
-    Ensure returns the expected value of the H1 filtered by regex.
-    """
-    test_consumepage = consumepage_fixture
-    actual_value = test_consumepage.get_filtered_data_by_selector(
-        TEST_SELECTOR,
-        regex=TEST_REGEX
-    )
-
-    assert actual_value == EXPECTED_FILTERED_VALUE
 
 
 def test_get_key_value_dict_by_selectors_returns_expected_dict(

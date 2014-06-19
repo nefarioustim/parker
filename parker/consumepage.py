@@ -30,67 +30,16 @@ class ConsumePage(object):
         """Return an unambiguous representation."""
         return "%s(%s)" % (self.__class__, self.parsedpage.page.uri)
 
-    def _get_stripped_text_from_node(self, node):
-        """Return the stripped text content of a node."""
-        return (
-            node.text_content()
-            .replace(u"\u00A0", " ")
-            .replace("\t", "")
-            .replace("\n", "")
-            .strip()
-        )
-
-    def _filter_by_regex(self, regex, text, group=1):
-        """Filter @text by @regex."""
-        match = re.search(
-            regex,
-            text,
-            re.MULTILINE
-        )
-
-        if match and match.groups():
-            return match.group(group).strip()
-        else:
-            return text
-
-    def _get_text_from_node(self, node, regex=None, group=1):
-        """Get text from node and filter if necessary."""
-        text = self._get_stripped_text_from_node(node)
-
-        if regex is not None:
-            text = self._filter_by_regex(regex, text, group)
-
-        return text
-
-    def get_filtered_data_by_selector(self, selector, regex=None, group=1):
-        """Return the text content of @selector.
-
-        Filter text content by @regex and @group.
-        """
-        nodes = self.parsedpage.get_nodes_by_selector(selector)
-        data = [
-            self._get_text_from_node(node, regex, group)
-            for node in nodes
-            if self._get_text_from_node(node, regex, group)
-        ]
-
-        if len(data) == 0:
-            return None
-        elif len(data) == 1:
-            return data[0]
-        else:
-            return data
-
     def get_key_value_dict_by_selectors(self, key_selector, value_selector):
         """Return a dictionary of key value data."""
         key_nodes = self.parsedpage.get_nodes_by_selector(key_selector)
         value_nodes = self.parsedpage.get_nodes_by_selector(value_selector)
 
         keys = [
-            self._get_text_from_node(node) for node in key_nodes
+            self.parsedpage.get_text_from_node(node) for node in key_nodes
         ]
         vals = [
-            self._get_text_from_node(node) for node in value_nodes
+            self.parsedpage.get_text_from_node(node) for node in value_nodes
         ]
 
         return dict(zip(keys, vals))
@@ -98,7 +47,7 @@ class ConsumePage(object):
     def get_crumb_list_by_selector(self, crumb_selector):
         """Return a list of crumbs."""
         return [
-            self._get_text_from_node(crumb)
+            self.parsedpage.get_text_from_node(crumb)
             for crumb in self.parsedpage.get_nodes_by_selector(crumb_selector)
         ]
 
@@ -114,7 +63,7 @@ class ConsumePage(object):
     def get_data_dict_from_config(self, config_dict):
         """Return a dictionary of data inferred from config_dict."""
         return {
-            key: self.get_filtered_data_by_selector(
+            key: self.parsedpage.get_filtered_values_by_selector(
                 item_dict['selector'],
                 item_dict.get('regex_filter', None),
                 item_dict.get('regex_group', 1)
