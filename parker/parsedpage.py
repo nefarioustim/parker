@@ -83,7 +83,6 @@ class ParsedPage(object):
             re.MULTILINE
         )
 
-        if match and match.groups():
-            return match.group(group).strip()
-        else:
-            return text
+        return match.group(group).strip() if (
+            match and match.groups()
+        ) else text
