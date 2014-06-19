@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """ConsumePage object for Parker."""
 
-import re
 from parsedpage import ParsedPage
 
 _instances = dict()
