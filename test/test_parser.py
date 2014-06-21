@@ -10,13 +10,16 @@ from test_page import page_fixture
 def test_parse_converts_page_into_parsedpage(page_fixture):
     """Test parser.parse converts a Page into a ParsedPage."""
     test_page = page_fixture
+    test_parsedpage = parser.parse(test_page)
+    expected_repr = "<class 'parker.parsedpage.ParsedPage'>(%s)" % (
+        test_page.uri
+    )
 
-    test_parsed_page = parser.parse(test_page)
-
-    assert isinstance(test_parsed_page, parsedpage.ParsedPage) is True
+    assert isinstance(test_parsedpage, parsedpage.ParsedPage) is True
+    assert test_parsedpage.__repr__() == expected_repr
 
 
 def test_parse_throws_typeerror_wrong_input():
     """Test parser.parse throws a TypeError on the wrong input."""
     with pytest.raises(TypeError):
-        test_parsed_page = parser.parse(None)
+        test_parsedpage = parser.parse(None)

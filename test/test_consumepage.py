@@ -7,9 +7,9 @@ from parker import parser, consumepage
 from parker.configloader import load_site_config
 from test_client import client_fixture
 from test_page import page_fixture
-from test_parsedpage import parsedpage_fixture
 import utils
 
+TEST_URI = "http://www.staples.co.uk/full-strip-stapler/cbs/412852.html"
 TEST_KEY_SELECTOR = "#divSpecifications dd .l"
 TEST_VALUE_SELECTOR = "#divSpecifications dd .r"
 TEST_CRUMB_SELECTOR = "#skuBreadCrumbs span[itemprop=title]"
@@ -40,24 +40,22 @@ EXPECTED_DATA_DICT = {
 
 
 @pytest.fixture(scope="function")
-def consumepage_fixture(parsedpage_fixture):
+def consumepage_fixture(page_fixture):
     """Test fixture to ensure correct mocking for parsedpage."""
-    test_parsedpage = parsedpage_fixture
-    return consumepage.get_instance(
-        test_parsedpage
-    )
-
-
-def test_get_instance_creates_consumepage_object(
-    parsedpage_fixture
-):
-    """Test parsedpage.get_instance creates a ParsedPage object."""
-    test_parsedpage = parsedpage_fixture
     test_consumepage = consumepage.get_instance(
-        test_parsedpage
+        TEST_URI
+    )
+    test_consumepage.page = page_fixture
+    return test_consumepage
+
+
+def test_get_instance_creates_consumepage_object():
+    """Test parsedpage.get_instance creates a ParsedPage object."""
+    test_consumepage = consumepage.get_instance(
+        TEST_URI
     )
     expected_repr = "<class 'parker.consumepage.ConsumePage'>(%s)" % (
-        test_parsedpage.page.uri
+        TEST_URI
     )
 
     assert isinstance(test_consumepage, consumepage.ConsumePage) is True

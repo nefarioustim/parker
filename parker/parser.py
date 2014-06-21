@@ -12,7 +12,7 @@ def parse(page_to_parse):
         raise TypeError("parser.parse requires a parker.Page object.")
 
     if page_to_parse.content is None:
-        page_to_parse.fetch()
+        raise ValueError("parser.parse requires a fetched parker.Page object.")
 
     return parsedpage.ParsedPage(
         page=page_to_parse,
