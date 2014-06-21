@@ -57,10 +57,7 @@ class Client(object):
 
     def get(self, uri, disable_proxy=False):
         """Return Requests response to GET request."""
-        if not disable_proxy:
-            proxy = self.proxy
-        else:
-            proxy = False
+        proxy = self.proxy if not disable_proxy else False
 
         return requests.get(
             uri,
