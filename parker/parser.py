@@ -4,6 +4,8 @@
 from pyquery import PyQuery
 from parker import page, parsedpage
 
+_parsedpages = dict()
+
 
 def parse(page_to_parse):
     """Return a parse of page.content. Wraps PyQuery."""
@@ -15,6 +17,5 @@ def parse(page_to_parse):
 
     return parsedpage.get_instance(
         page=page_to_parse,
-        original=page_to_parse.content,
         parsed=PyQuery(page_to_parse.content, parser='html')
     )

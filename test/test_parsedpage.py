@@ -8,8 +8,6 @@ from test_client import client_fixture
 from test_page import page_fixture
 import utils
 
-TEST_CONTENT = utils.load_stub_as_string('staples-stapler.html')
-TEST_PARSED = PyQuery(TEST_CONTENT, parser='html')
 TEST_SELECTOR = "#SideMenuListInner li"
 TEST_H1_SELECTOR = "h1"
 TEST_REGEX = r"(\w+)"
@@ -32,8 +30,7 @@ def test_get_instance_creates_parsedpage_object(page_fixture):
     test_page = page_fixture
     test_parsedpage = parsedpage.get_instance(
         test_page,
-        TEST_CONTENT,
-        TEST_PARSED
+        PyQuery(test_page.content, parser='html')
     )
     expected_repr = "<class 'parker.parsedpage.ParsedPage'>(%s)" % (
         test_page.uri

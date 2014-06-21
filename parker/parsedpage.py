@@ -6,12 +6,12 @@ import re
 _instances = dict()
 
 
-def get_instance(page, original, parsed):
+def get_instance(page, parsed):
     """Return an instance of ParsedPage."""
     try:
         instance = _instances[page.uri]
     except KeyError:
-        instance = ParsedPage(page, original, parsed)
+        instance = ParsedPage(page, parsed)
         _instances[page.uri] = instance
 
     return instance
@@ -21,10 +21,10 @@ class ParsedPage(object):
 
     """A ParsedPage."""
 
-    def __init__(self, page, original, parsed):
+    def __init__(self, page, parsed):
         """Constructor."""
         self.page = page
-        self.original = original
+        self.original = page.content
         self.parsed = parsed
 
     def __repr__(self):
