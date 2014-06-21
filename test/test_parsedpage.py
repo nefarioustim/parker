@@ -8,6 +8,7 @@ from test_client import client_fixture
 from test_page import page_fixture
 import utils
 
+TEST_URI = "http://www.staples.co.uk/full-strip-stapler/cbs/412852.html"
 TEST_SELECTOR = "#SideMenuListInner li"
 TEST_H1_SELECTOR = "h1"
 TEST_REGEX = r"(\w+)"
@@ -25,15 +26,11 @@ def parsedpage_fixture(page_fixture):
     return parser.parse(test_page)
 
 
-def test_get_instance_creates_parsedpage_object(page_fixture):
+def test_get_instance_creates_parsedpage_object():
     """Test parsedpage.get_instance creates a ParsedPage object."""
-    test_page = page_fixture
-    test_parsedpage = parsedpage.get_instance(
-        test_page,
-        PyQuery(test_page.content, parser='html')
-    )
+    test_parsedpage = parsedpage.get_instance(TEST_URI)
     expected_repr = "<class 'parker.parsedpage.ParsedPage'>(%s)" % (
-        test_page.uri
+        TEST_URI
     )
 
     assert isinstance(test_parsedpage, parsedpage.ParsedPage) is True

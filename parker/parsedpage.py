@@ -2,17 +2,21 @@
 """ParsedPage object for Parker."""
 
 import re
+import page
+import parser
 
 _instances = dict()
 
 
-def get_instance(page, parsed):
+def get_instance(uri):
     """Return an instance of ParsedPage."""
     try:
-        instance = _instances[page.uri]
+        instance = _instances[uri]
     except KeyError:
-        instance = ParsedPage(page, parsed)
-        _instances[page.uri] = instance
+        instance = parser.parse(
+            page.get_instance(uri)
+        )
+        _instances[uri] = instance
 
     return instance
 

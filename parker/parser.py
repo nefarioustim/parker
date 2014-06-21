@@ -2,9 +2,8 @@
 """Parser abstraction that wraps PyQuery for Parker."""
 
 from pyquery import PyQuery
-from parker import page, parsedpage
-
-_parsedpages = dict()
+import page
+import parsedpage
 
 
 def parse(page_to_parse):
@@ -15,7 +14,7 @@ def parse(page_to_parse):
     if page_to_parse.content is None:
         page_to_parse.fetch()
 
-    return parsedpage.get_instance(
+    return parsedpage.ParsedPage(
         page=page_to_parse,
         parsed=PyQuery(page_to_parse.content, parser='html')
     )
