@@ -15,19 +15,13 @@ def get_instance():
     user_agents = config['user-agents']
     proxies = config['proxies']
 
-    if len(user_agents) > 0:
-        user_agent = user_agents[
-            random.randint(0, len(user_agents) - 1)
-        ]
-    else:
-        user_agent = DEFAULT_UA
+    user_agent = user_agents[
+        random.randint(0, len(user_agents) - 1)
+    ] if len(user_agents) > 0 else DEFAULT_UA
 
-    if len(proxies) > 0:
-        proxy = proxies[
-            random.randint(0, len(proxies) - 1)
-        ]
-    else:
-        proxy = None
+    proxy = proxies[
+        random.randint(0, len(proxies) - 1)
+    ] if len(proxies) > 0 else None
 
     try:
         instance = _instances[user_agent]

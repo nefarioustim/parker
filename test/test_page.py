@@ -13,10 +13,12 @@ TEST_CONTENT = utils.load_stub_as_string('staples-stapler.html')
 @pytest.fixture(scope="function")
 def page_fixture(client_fixture):
     """Test fixture to ensure correct mocking for page."""
-    return page.get_instance(
-        uri=TEST_URI,
-        page_client=client_fixture
+    test_page = page.get_instance(
+        uri=TEST_URI
     )
+    test_page.client = client_fixture
+
+    return test_page
 
 
 def test_get_instance_creates_page_object():

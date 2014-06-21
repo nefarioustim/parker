@@ -6,19 +6,16 @@ import client
 _instances = dict()
 
 
-def get_instance(uri, page_client=None):
+def get_instance(uri):
     """Return an instance of Page."""
     try:
         instance = _instances[uri]
     except KeyError:
-        if not page_client:
-            page_client = client.get_instance()
-
-        instance = Page(uri, page_client)
+        instance = Page(
+            uri,
+            client.get_instance()
+        )
         _instances[uri] = instance
-    else:
-        if page_client:
-            instance.client = page_client
 
     return instance
 
