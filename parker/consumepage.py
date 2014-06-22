@@ -12,8 +12,12 @@ def get_instance(page_to_consume):
     if isinstance(page_to_consume, str):
         uri = page_to_consume
         page_to_consume = page.get_instance(uri)
-    else:
+    elif isinstance(page_to_consume, page.Page):
         uri = page_to_consume.uri
+    else:
+        raise TypeError(
+            "get_instance() expects a parker.Page or str derivative."
+        )
 
     page_to_consume.fetch()
     parsed_page = parser.parse(page_to_consume)
@@ -48,10 +52,12 @@ class ConsumePage(object):
         value_nodes = self.parsedpage.get_nodes_by_selector(value_selector)
 
         keys = [
-            self.parsedpage.get_text_from_node(node) for node in key_nodes
+            self.parsedpage.get_text_from_node(node)
+            for node in key_nodes
         ]
         vals = [
-            self.parsedpage.get_text_from_node(node) for node in value_nodes
+            self.parsedpage.get_text_from_node(node)
+            for node in value_nodes
         ]
 
         return dict(zip(keys, vals))

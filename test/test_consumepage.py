@@ -49,7 +49,7 @@ def consumepage_fixture(page_fixture):
 
 
 def test_get_instance_creates_consumepage_object(page_fixture):
-    """Test parsedpage.get_instance creates a ParsedPage object."""
+    """Test consumepage.get_instance creates a ConsumePage object."""
     test_consumepage = consumepage.get_instance(
         page_fixture
     )
@@ -60,6 +60,12 @@ def test_get_instance_creates_consumepage_object(page_fixture):
     assert isinstance(test_consumepage, consumepage.ConsumePage)
     assert isinstance(test_consumepage.parsedpage, parsedpage.ParsedPage)
     assert test_consumepage.__repr__() == expected_repr
+
+
+def test_get_instance_raises_typeerror_unexpected_parameter_type():
+    """Test consumepage.get_instance throws TypeError on unexpected param."""
+    with pytest.raises(TypeError):
+        test_consumepage = consumepage.get_instance(None)
 
 
 def test_get_key_value_dict_by_selectors_returns_expected_dict(
