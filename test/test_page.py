@@ -28,8 +28,8 @@ def test_get_instance_creates_page_object():
         TEST_URI
     )
 
-    assert isinstance(test_page, page.Page) is True
-    assert isinstance(test_page.client, client.Client) is True
+    assert isinstance(test_page, page.Page)
+    assert isinstance(test_page.client, client.Client)
     assert test_page.__repr__() == expected_repr
 
 

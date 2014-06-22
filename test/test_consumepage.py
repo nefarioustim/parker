@@ -3,7 +3,7 @@
 
 import pytest
 from pyquery import PyQuery
-from parker import parser, consumepage
+from parker import parser, consumepage, parsedpage
 from parker.configloader import load_site_config
 from test_client import client_fixture
 from test_page import page_fixture
@@ -57,7 +57,8 @@ def test_get_instance_creates_consumepage_object(page_fixture):
         TEST_URI
     )
 
-    assert isinstance(test_consumepage, consumepage.ConsumePage) is True
+    assert isinstance(test_consumepage, consumepage.ConsumePage)
+    assert isinstance(test_consumepage.parsedpage, parsedpage.ParsedPage)
     assert test_consumepage.__repr__() == expected_repr
 
 

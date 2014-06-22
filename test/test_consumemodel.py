@@ -10,4 +10,4 @@ def test_get_instance_creates_consumemodel_object():
     """Test consumemodel.get_instance creates a ConsumeModel object."""
     test_consumemodel = consumemodel.get_instance(TEST_URI)
 
-    assert isinstance(test_consumemodel, consumemodel.ConsumeModel) is True
+    assert isinstance(test_consumemodel, consumemodel.ConsumeModel)

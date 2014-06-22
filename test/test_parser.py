@@ -15,7 +15,7 @@ def test_parse_converts_page_into_parsedpage(page_fixture):
         test_page.uri
     )
 
-    assert isinstance(test_parsedpage, parsedpage.ParsedPage) is True
+    assert isinstance(test_parsedpage, parsedpage.ParsedPage)
     assert test_parsedpage.__repr__() == expected_repr
 
 

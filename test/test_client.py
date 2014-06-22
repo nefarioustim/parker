@@ -39,7 +39,7 @@ def test_get_instance_creates_client_object():
         test_client.headers["user_agent"]
     )
 
-    assert isinstance(test_client, client.Client) is True
+    assert isinstance(test_client, client.Client)
     assert test_client.__repr__() == expected_repr
 
 
