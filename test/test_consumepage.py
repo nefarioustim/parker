@@ -43,16 +43,15 @@ EXPECTED_DATA_DICT = {
 def consumepage_fixture(page_fixture):
     """Test fixture to ensure correct mocking for parsedpage."""
     test_consumepage = consumepage.get_instance(
-        TEST_URI
+        page_fixture
     )
-    test_consumepage.page = page_fixture
     return test_consumepage
 
 
-def test_get_instance_creates_consumepage_object():
+def test_get_instance_creates_consumepage_object(page_fixture):
     """Test parsedpage.get_instance creates a ParsedPage object."""
     test_consumepage = consumepage.get_instance(
-        TEST_URI
+        page_fixture
     )
     expected_repr = "<class 'parker.consumepage.ConsumePage'>(%s)" % (
         TEST_URI

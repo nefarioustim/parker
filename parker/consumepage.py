@@ -7,49 +7,41 @@ import parser
 _instances = dict()
 
 
-def get_instance(uri):
+def get_instance(page_to_consume):
     """Return an instance of ConsumePage."""
+    if isinstance(page_to_consume, str):
+        uri = page_to_consume
+        page_to_consume = page.get_instance(uri)
+    else:
+        uri = page_to_consume.uri
+
+    page_to_consume.fetch()
+    parsed_page = parser.parse(page_to_consume)
+
     try:
         instance = _instances[uri]
     except KeyError:
         instance = ConsumePage(
-            page.get_instance(uri)
+            parsed_page
         )
         _instances[uri] = instance
 
     return instance
 
 
-def _require_parsedpage(func):
-    def _decorator(self, *args, **kwargs):
-        if self.parsedpage is None:
-            self._init_parsedpage()
-
-        return func(self, *args, **kwargs)
-
-    return _decorator
-
-
 class ConsumePage(object):
 
     """A ConsumePage."""
 
-    def __init__(self, page):
+    def __init__(self, parsedpage):
         """Constructor."""
-        self.page = page
-        self.parsedpage = None
-        self.uri = self.page.uri
+        self.parsedpage = parsedpage
+        self.uri = parsedpage.page.uri
 
     def __repr__(self):
         """Return an unambiguous representation."""
         return "%s(%s)" % (self.__class__, self.uri)
 
-    def _init_parsedpage(self):
-        """Trigger the fetch of the Page and subsequent parse."""
-        self.page.fetch()
-        self.parsedpage = parser.parse(self.page)
-
-    @_require_parsedpage
     def get_key_value_dict_by_selectors(self, key_selector, value_selector):
         """Return a dictionary of key value data."""
         key_nodes = self.parsedpage.get_nodes_by_selector(key_selector)
@@ -64,7 +56,6 @@ class ConsumePage(object):
 
         return dict(zip(keys, vals))
 
-    @_require_parsedpage
     def get_crumb_list_by_selector(self, crumb_selector):
         """Return a list of crumbs."""
         return [
@@ -72,7 +63,6 @@ class ConsumePage(object):
             for crumb in self.parsedpage.get_nodes_by_selector(crumb_selector)
         ]
 
-    @_require_parsedpage
     def get_media_list_by_selector(
         self, media_selector, media_attribute="src"
     ):
@@ -82,7 +72,6 @@ class ConsumePage(object):
             for media in self.parsedpage.get_nodes_by_selector(media_selector)
         ]
 
-    @_require_parsedpage
     def get_data_dict_from_config(self, config_dict):
         """Return a dictionary of data inferred from config_dict."""
         return {

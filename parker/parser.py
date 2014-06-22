@@ -5,6 +5,8 @@ from pyquery import PyQuery
 import page
 import parsedpage
 
+_parsed = dict()
+
 
 def parse(page_to_parse):
     """Return a parse of page.content. Wraps PyQuery."""
@@ -14,7 +16,13 @@ def parse(page_to_parse):
     if page_to_parse.content is None:
         raise ValueError("parser.parse requires a fetched parker.Page object.")
 
-    return parsedpage.ParsedPage(
-        page=page_to_parse,
-        parsed=PyQuery(page_to_parse.content, parser='html')
-    )
+    try:
+        parsed = _parsed[page_to_parse]
+    except KeyError:
+        parsed = parsedpage.ParsedPage(
+            page=page_to_parse,
+            parsed=PyQuery(page_to_parse.content, parser='html')
+        )
+        _parsed[page_to_parse] = parsed
+
+    return parsed
