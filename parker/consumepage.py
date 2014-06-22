@@ -27,6 +27,7 @@ class ConsumePage(object):
     def __init__(self, page):
         """Constructor."""
         self.page = page
+        self.parsedpage = None
         self.uri = self.page.uri
 
     def __repr__(self):
@@ -40,7 +41,7 @@ class ConsumePage(object):
 
     def get_key_value_dict_by_selectors(self, key_selector, value_selector):
         """Return a dictionary of key value data."""
-        if not hasattr(self, "parsedpage"):
+        if self.parsedpage is None:
             self._init_parsedpage()
 
         key_nodes = self.parsedpage.get_nodes_by_selector(key_selector)
@@ -57,7 +58,7 @@ class ConsumePage(object):
 
     def get_crumb_list_by_selector(self, crumb_selector):
         """Return a list of crumbs."""
-        if not hasattr(self, "parsedpage"):
+        if self.parsedpage is None:
             self._init_parsedpage()
 
         return [
@@ -69,7 +70,7 @@ class ConsumePage(object):
         self, media_selector, media_attribute="src"
     ):
         """Return a list of media."""
-        if not hasattr(self, "parsedpage"):
+        if self.parsedpage is None:
             self._init_parsedpage()
 
         return [
@@ -79,7 +80,7 @@ class ConsumePage(object):
 
     def get_data_dict_from_config(self, config_dict):
         """Return a dictionary of data inferred from config_dict."""
-        if not hasattr(self, "parsedpage"):
+        if self.parsedpage is None:
             self._init_parsedpage()
 
         return {
