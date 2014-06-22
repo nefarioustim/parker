@@ -20,6 +20,16 @@ def get_instance(uri):
     return instance
 
 
+def _require_parsedpage(func):
+    def _decorator(self, *args, **kwargs):
+        if self.parsedpage is None:
+            self._init_parsedpage()
+
+        return func(self, *args, **kwargs)
+
+    return _decorator
+
+
 class ConsumePage(object):
 
     """A ConsumePage."""
@@ -39,11 +49,9 @@ class ConsumePage(object):
         self.page.fetch()
         self.parsedpage = parser.parse(self.page)
 
+    @_require_parsedpage
     def get_key_value_dict_by_selectors(self, key_selector, value_selector):
         """Return a dictionary of key value data."""
-        if self.parsedpage is None:
-            self._init_parsedpage()
-
         key_nodes = self.parsedpage.get_nodes_by_selector(key_selector)
         value_nodes = self.parsedpage.get_nodes_by_selector(value_selector)
 
@@ -56,33 +64,27 @@ class ConsumePage(object):
 
         return dict(zip(keys, vals))
 
+    @_require_parsedpage
     def get_crumb_list_by_selector(self, crumb_selector):
         """Return a list of crumbs."""
-        if self.parsedpage is None:
-            self._init_parsedpage()
-
         return [
             self.parsedpage.get_text_from_node(crumb)
             for crumb in self.parsedpage.get_nodes_by_selector(crumb_selector)
         ]
 
+    @_require_parsedpage
     def get_media_list_by_selector(
         self, media_selector, media_attribute="src"
     ):
         """Return a list of media."""
-        if self.parsedpage is None:
-            self._init_parsedpage()
-
         return [
             media.attrib[media_attribute]
             for media in self.parsedpage.get_nodes_by_selector(media_selector)
         ]
 
+    @_require_parsedpage
     def get_data_dict_from_config(self, config_dict):
         """Return a dictionary of data inferred from config_dict."""
-        if self.parsedpage is None:
-            self._init_parsedpage()
-
         return {
             key: self.parsedpage.get_filtered_values_by_selector(
                 item_dict['selector'],
