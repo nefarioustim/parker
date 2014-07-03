@@ -42,17 +42,25 @@ class ConsumeModel(object):
 
     def load_from_config(self, config):
         """Load model from passed configuration."""
-        data_config = config.get("specific_data", False)
-        key_value_config = config.get("key_value_data", False)
-        crumb_config = config.get("crumbs", False)
-        media_config = config.get("media", False)
+        self._load_data(
+            config.get("specific_data", False)
+        )
+        self._load_key_value(
+            config.get("key_value_data", False)
+        )
+        self._load_crumb(
+            config.get("crumbs", False)
+        )
+        self._load_media_list(
+            config.get("media", False)
+        )
 
-        # Populate specific data dictionary
+    def _load_data(self, data_config):
         self.data_dict = self.consumepage.get_data_dict_from_config(
             data_config
         ) if data_config else None
 
-        # Populate key value dictionary
+    def _load_key_value(self, key_value_config):
         self.key_value_dict = self.consumepage.get_key_value_dict_by_selectors(
             key_value_config["key_selector"],
             key_value_config["value_selector"]
@@ -62,7 +70,7 @@ class ConsumeModel(object):
             and key_value_config.get("value_selector", False)
         ) else None
 
-        # Populate crumb list
+    def _load_crumb(self, crumb_config):
         self.crumb_list = self.consumepage.get_crumb_list_by_selector(
             crumb_config["selector"]
         ) if (
@@ -70,7 +78,7 @@ class ConsumeModel(object):
             and crumb_config.get("selector", False)
         ) else None
 
-        # Populate media list
+    def _load_media_list(self, media_config):
         self.media_list = self.consumepage.get_media_list_by_selector(
             media_config["selector"],
             media_config["attribute"],
