@@ -13,7 +13,7 @@ install-parker: ./venv
 	virtualenv venv
 
 test:
-	py.test -sv --cov-config .coveragerc --cov-report term-missing --cov parker test
+	py.test -svv --cov-config .coveragerc --cov-report term-missing --cov parker test
 
 clean-pyc:
 	find . -name '*.pyc' -delete
