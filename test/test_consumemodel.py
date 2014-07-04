@@ -3,7 +3,7 @@
 
 import os
 import pytest
-from parker import consumemodel
+from parker import consumemodel, fileops
 from parker.configloader import load_site_config
 from test_client import client_fixture
 from test_page import page_fixture
@@ -75,5 +75,10 @@ def test_save_to_file_saves_model_to_file_as_json(consumemodel_fixture):
 
     assert os.path.exists(TEST_FILE)
     assert os.path.isfile(TEST_FILE)
+
+    line = fileops.get_line_from_file(TEST_FILE).next()
+
+    for key, value in EXPECTED_DATA_DICT.iteritems():
+        assert value in line
 
     os.remove(TEST_FILE)
