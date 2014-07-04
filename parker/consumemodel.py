@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 """Model object for consumed pages in Parker."""
 
+from datetime import datetime
 import consumepage
+import fileops
 
 _instances = dict()
 
@@ -35,10 +37,19 @@ class ConsumeModel(object):
         """Constructor."""
         self.consumepage = consumepage
         self.uri = consumepage.uri
+        self.site = None
         self.data_dict = None
         self.key_value_dict = None
         self.crumb_list = None
         self.media_list = None
+
+    def save_to_file(self, file_path):
+        """Save model to file."""
+        data_dict = self._get_prepped_data_for_dump()
+        fileops.dump_dict_to_file(
+            data_dict,
+            file_path
+        )
 
     def load_from_config(self, config):
         """Load model from passed configuration."""
@@ -87,3 +98,16 @@ class ConsumeModel(object):
             and media_config.get("selector", False)
             and media_config.get("attribute", False)
         ) else None
+
+    def _get_prepped_data_for_dump(self):
+        data = self.data_dict.copy()
+        data['key_value_data'] = self.key_value_dict
+        data['crumbs'] = self.crumb_list if len(self.crumb_list) > 0 else None
+        data['media'] = self.media_list if len(self.media_list) > 0 else None
+
+        data.update({
+            "uri": self.uri,
+            "crawled": datetime.utcnow().isoformat(),
+        })
+
+        return data

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Test the ConsumeModel object."""
 
+import os
 import pytest
 from parker import consumemodel
 from parker.configloader import load_site_config
@@ -11,6 +12,7 @@ from test_consumepage import consumepage_fixture
 TEST_URI = "http://www.staples.co.uk/full-strip-stapler/cbs/412852.html"
 TEST_CONFIG_NAME = "staples"
 TEST_CONFIG = load_site_config(TEST_CONFIG_NAME)
+TEST_FILE = "/tmp/test.data"
 EXPECTED_KV_DICT = {
     u'Staple Compatibility :': u'26/06/2014',
     u'Brands :': u'Staples',
@@ -60,3 +62,18 @@ def test_load_from_config_populates_model(consumemodel_fixture):
     assert test_consumemodel.key_value_dict == EXPECTED_KV_DICT
     assert test_consumemodel.crumb_list == EXPECTED_CRUMB_LIST
     assert test_consumemodel.media_list == EXPECTED_MEDIA_LIST
+
+
+def test_save_to_file_saves_model_to_file_as_json(consumemodel_fixture):
+    """Test consumemodel.save_to_file saves the model to the passed file.
+
+    Model should be saved as JSON.
+    """
+    test_consumemodel = consumemodel_fixture
+    test_consumemodel.load_from_config(TEST_CONFIG)
+    test_consumemodel.save_to_file(TEST_FILE)
+
+    assert os.path.exists(TEST_FILE)
+    assert os.path.isfile(TEST_FILE)
+
+    os.remove(TEST_FILE)
