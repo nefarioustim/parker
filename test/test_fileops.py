@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-"""Test the file methods."""
+"""Test the file operations."""
 
 import os
-import parker.file
+import parker.fileops
 
 TEST_FILE_PATH = "/tmp/test/file/path"
 TEST_FILE = "/tmp/test.log"
@@ -14,8 +14,8 @@ TEST_DICT_LINE = '{"this": "dict"}'
 
 
 def test_create_dirs_actually_creates_dirs():
-    """Test file.create_dirs actually creates all dirs in path."""
-    parker.file.create_dirs(TEST_FILE_PATH)
+    """Test fileops.create_dirs actually creates all dirs in path."""
+    parker.fileops.create_dirs(TEST_FILE_PATH)
 
     assert os.path.isdir(TEST_FILE_PATH)
 
@@ -24,8 +24,8 @@ def test_create_dirs_actually_creates_dirs():
 
 def test_dump_string_to_file_dumps_to_file():
     """Test string is output, and get_line_from_file loads it back in."""
-    parker.file.dump_string_to_file(TEST_STRING, TEST_FILE)
-    line = parker.file.get_line_from_file(TEST_FILE).next()
+    parker.fileops.dump_string_to_file(TEST_STRING, TEST_FILE)
+    line = parker.fileops.get_line_from_file(TEST_FILE).next()
 
     assert line == TEST_STRING
 
@@ -34,8 +34,8 @@ def test_dump_string_to_file_dumps_to_file():
 
 def test_dump_dict_to_file():
     """Test dict is output, and get_line_from_file loads it back in."""
-    parker.file.dump_dict_to_file(TEST_DICT, TEST_FILE)
-    line = parker.file.get_line_from_file(TEST_FILE).next()
+    parker.fileops.dump_dict_to_file(TEST_DICT, TEST_FILE)
+    line = parker.fileops.get_line_from_file(TEST_FILE).next()
 
     assert line == TEST_DICT_LINE
 
