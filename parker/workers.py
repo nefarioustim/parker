@@ -9,10 +9,9 @@ from fileops import DATA_DIR
 
 def consumer(site, uri):
     """Consume URI using site config."""
+    site_config = load_site_config(site)
     model = consumemodel.get_instance(uri)
-    model.load_from_config(
-        load_site_config(site)
-    )
+    model.load_from_config(site_config)
     model.save_to_file(
         os.path.join(
             DATA_DIR,
