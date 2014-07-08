@@ -32,6 +32,7 @@ EXPECTED_DATA_DICT = {
     'title': 'Full Strip Stapler',
     'sku': 'WW-412852'
 }
+EXPECTED_UNIQUE_FIELD = 'WW-412852'
 
 
 @pytest.fixture(scope="function")
@@ -58,10 +59,12 @@ def test_load_from_config_populates_model(consumemodel_fixture):
     test_consumemodel = consumemodel_fixture
     test_consumemodel.load_from_config(TEST_CONFIG)
 
+    assert test_consumemodel.site == TEST_CONFIG_NAME
     assert test_consumemodel.data_dict == EXPECTED_DATA_DICT
     assert test_consumemodel.key_value_dict == EXPECTED_KV_DICT
     assert test_consumemodel.crumb_list == EXPECTED_CRUMB_LIST
     assert test_consumemodel.media_list == EXPECTED_MEDIA_LIST
+    assert test_consumemodel.unique_field == EXPECTED_UNIQUE_FIELD
 
 
 def test_save_to_file_saves_model_to_file_as_json(consumemodel_fixture):

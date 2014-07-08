@@ -2,6 +2,7 @@
 """Model object for consumed pages in Parker."""
 
 from datetime import datetime
+import os.path
 import consumepage
 import fileops
 
@@ -37,6 +38,7 @@ class ConsumeModel(object):
         """Constructor."""
         self.consumepage = consumepage
         self.uri = consumepage.uri
+        self.unique_field = None
         self.site = None
         self.data_dict = None
         self.key_value_dict = None
@@ -53,6 +55,7 @@ class ConsumeModel(object):
 
     def load_from_config(self, config):
         """Load model from passed configuration."""
+        self.site = config.get("id", False)
         self._load_data(
             config.get("specific_data", False)
         )
@@ -64,6 +67,10 @@ class ConsumeModel(object):
         )
         self._load_media_list(
             config.get("media", False)
+        )
+        self.unique_field = self.data_dict.get(
+            config.get("unique_field", False),
+            False
         )
 
     def _load_data(self, data_config):
