@@ -3,6 +3,7 @@
 
 import json
 import os
+from stringops import generate_chunks
 
 VAR_DIR = os.path.join(os.environ.get('PROJECT'), 'var')
 LOG_DIR = os.path.join(VAR_DIR, 'log')
@@ -45,3 +46,21 @@ def get_line_from_file(filename):
     """Generator to return a file line by line."""
     for row in open(filename, 'rU'):
         yield row.strip()
+
+
+def get_chunk_path_from_string(string, prefix=None, chunk=3):
+    """Return a chunked path from string."""
+    path = os.path.join(
+        *list(generate_chunks(
+            string,
+            chunk
+        ))
+    )
+
+    if prefix is not None:
+        path = os.path.join(
+            prefix,
+            path
+        )
+
+    return path
