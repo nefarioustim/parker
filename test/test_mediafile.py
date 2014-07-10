@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
 """Test the MediaFile object."""
 
+import os
+import pytest
 from parker import mediafile, client
+import utils
 
-TEST_URI = "//www.staples.co.uk/content/images/product/uk_412852_1_xnl.jpg"
+TEST_URI = "http://www.staples.co.uk/content/images/product/uk_412852_1_xnl.jpg"
+TEST_FILE = "/tmp/somewhere"
+EXPECTED_FILENAME = "/tmp/somewhere.jpg"
 
 
 def test_get_instance_creates_mediafile_object():
@@ -16,3 +21,15 @@ def test_get_instance_creates_mediafile_object():
     assert isinstance(test_mediafile, mediafile.MediaFile)
     assert isinstance(test_mediafile.client, client.Client)
     assert test_mediafile.__repr__() == expected_repr
+
+
+@pytest.mark.skipif(not utils.is_online(), reason="Currently offline.")
+def test_fetch_to_file_downloads_to_file():
+    """Test mediafile.fetch_to_file downloads to file."""
+    test_mediafile = mediafile.get_instance(TEST_URI)
+    filename = test_mediafile.fetch_to_file(TEST_FILE)
+
+    assert filename == EXPECTED_FILENAME
+    assert os.path.isfile(EXPECTED_FILENAME)
+
+    os.remove(EXPECTED_FILENAME)
