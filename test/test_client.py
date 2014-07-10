@@ -20,6 +20,12 @@ def client_fixture(monkeypatch):
     )
     mocked_response.content = TEST_CONTENT
     mocked_response.status_code = TEST_STATUS_CODE
+    mocked_response.iter_content.return_value = utils.load_stub_as_iterable(
+        'stapler.jpg'
+    )
+    mocked_response.headers = {
+        'content-type': 'image/jpeg'
+    }
 
     monkeypatch.setattr(
         client.requests,
