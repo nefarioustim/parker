@@ -4,6 +4,11 @@
 import client
 
 _instances = dict()
+_content_type_map = {
+    'image/jpeg': 'jpg',
+    'image/png': 'png',
+    'image/gif': 'gif'
+}
 
 
 def get_instance(uri):
@@ -37,13 +42,10 @@ class MediaFile(object):
     def fetch_to_file(self, filename):
         """Stream the MediaFile to the filesystem."""
         stream = self.client.get_iter_content(self.uri)
+        content_type = self.client.response_headers['content-type']
 
-        if self.client.response_headers['content-type'] == 'image/jpeg':
-            filename = filename + '.jpg'
-        elif self.client.response_headers['content-type'] == 'image/png':
-            filename = filename + '.png'
-        elif self.client.response_headers['content-type'] == 'image/gif':
-            filename = filename + '.gif'
+        if content_type in _content_type_map:
+            filename = filename + '.' + _content_type_map[content_type]
 
         with open(filename, 'wb') as file_handle:
             for chunk in stream:
