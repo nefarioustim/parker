@@ -32,3 +32,13 @@ def load_stub_as_string(filename):
 
     with open(filepath, "r") as myfile:
         return myfile.read()
+
+
+def load_stub_as_iterable(filename):
+    """Load a stub file as an iterable."""
+    filepath = os.path.join(
+        STUB_PATH,
+        filename
+    )
+
+    return open(filepath, "r")
