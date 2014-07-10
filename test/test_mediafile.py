@@ -27,9 +27,9 @@ def test_get_instance_creates_mediafile_object():
 def test_fetch_to_file_downloads_to_file():
     """Test mediafile.fetch_to_file downloads to file."""
     test_mediafile = mediafile.get_instance(TEST_URI)
-    filename = test_mediafile.fetch_to_file(TEST_FILE)
+    test_mediafile.fetch_to_file(TEST_FILE)
 
-    assert filename == EXPECTED_FILENAME
-    assert os.path.isfile(EXPECTED_FILENAME)
+    assert test_mediafile.filename == EXPECTED_FILENAME
+    assert os.path.isfile(test_mediafile.filename)
 
-    os.remove(EXPECTED_FILENAME)
+    os.remove(test_mediafile.filename)

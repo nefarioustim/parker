@@ -28,6 +28,7 @@ class MediaFile(object):
         """Constructor."""
         self.uri = uri
         self.client = client
+        self.filename = None
 
     def __repr__(self):
         """Return an unambiguous representation."""
@@ -48,4 +49,4 @@ class MediaFile(object):
             for chunk in stream:
                 file_handle.write(chunk)
 
-        return filename
+        self.filename = filename
