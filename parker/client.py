@@ -51,6 +51,7 @@ class Client(object):
         """Constructor."""
         self.headers["user_agent"] = user_agent
         self.proxy = proxy
+        self.response_headers = None
 
     def __repr__(self):
         """Return an unambiguous representation."""
@@ -74,6 +75,7 @@ class Client(object):
         response = self.get(uri=uri, disable_proxy=disable_proxy)
 
         if response.status_code in _PERMITTED_STATUS_CODES:
+            self.response_headers = response.headers
             return response.content
         else:
             raise requests.exceptions.HTTPError(
@@ -85,6 +87,7 @@ class Client(object):
         response = self.get(uri=uri, disable_proxy=disable_proxy, stream=True)
 
         if response.status_code in _PERMITTED_STATUS_CODES:
+            self.response_headers = response.headers
             return response.iter_content()
         else:
             raise requests.exceptions.HTTPError(
