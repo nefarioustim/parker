@@ -59,3 +59,11 @@ def test_get_content_returns_stubbed_content(client_fixture):
     content = test_client.get_content(TEST_URI)
 
     assert content == TEST_CONTENT
+
+
+def test_get_iter_content_calls_response_iter_content(client_fixture):
+    """Test client.get_iter_content returns iterable content from stream."""
+    test_client = client_fixture
+    content = test_client.get_iter_content(TEST_URI)
+
+    assert client.requests.get.call_args[1]['stream']

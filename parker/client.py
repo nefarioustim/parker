@@ -6,6 +6,7 @@ import requests
 from configloader import load_config
 
 DEFAULT_UA = "Parker v0.1.0"
+_PERMITTED_STATUS_CODES = [200]
 _instances = dict()
 
 
@@ -55,7 +56,7 @@ class Client(object):
         """Return an unambiguous representation."""
         return "%s(%s)" % (self.__class__, self.headers["user_agent"])
 
-    def get(self, uri, disable_proxy=False):
+    def get(self, uri, disable_proxy=False, stream=False):
         """Return Requests response to GET request."""
         proxy = self.proxy if not disable_proxy else False
 
@@ -64,16 +65,27 @@ class Client(object):
             headers=self.headers,
             allow_redirects=True,
             cookies={},
+            stream=stream,
             proxies=proxy
         )
 
     def get_content(self, uri, disable_proxy=False):
         """Return content from URI if Response status is good."""
-        permitted_status_codes = [200]
         response = self.get(uri=uri, disable_proxy=disable_proxy)
 
-        if response.status_code in permitted_status_codes:
+        if response.status_code in _PERMITTED_STATUS_CODES:
             return response.content
+        else:
+            raise requests.exceptions.HTTPError(
+                "HTTP response did not have a permitted status code."
+            )
+
+    def get_iter_content(self, uri, disable_proxy=False):
+        """Return iterable content from URI if Response status is good."""
+        response = self.get(uri=uri, disable_proxy=disable_proxy, stream=True)
+
+        if response.status_code in _PERMITTED_STATUS_CODES:
+            return response.iter_content()
         else:
             raise requests.exceptions.HTTPError(
                 "HTTP response did not have a permitted status code."
