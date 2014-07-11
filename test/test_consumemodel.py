@@ -2,6 +2,7 @@
 """Test the ConsumeModel object."""
 
 import os
+import shutil
 import pytest
 from parker import consumemodel, fileops
 from parker.configloader import load_site_config
@@ -14,6 +15,7 @@ TEST_URI = "http://www.staples.co.uk/full-strip-stapler/cbs/412852.html"
 TEST_CONFIG_NAME = "staples"
 TEST_CONFIG = load_site_config(TEST_CONFIG_NAME)
 TEST_FILE = "/tmp/test.data"
+TEST_PATH = "/tmp"
 EXPECTED_KV_DICT = {
     u'Staple Compatibility :': u'26/06/2014',
     u'Brands :': u'Staples',
@@ -34,6 +36,8 @@ EXPECTED_DATA_DICT = {
     'sku': 'WW-412852'
 }
 EXPECTED_UNIQUE_FIELD = 'WW-412852'
+EXPECTED_MEDIA_PATH = "/tmp/staples/WW-/412/852"
+EXPECTED_MEDIA_FILE = "/tmp/staples/WW-/412/852/WW-412852_0.jpg"
 
 
 @pytest.fixture(scope="function")
@@ -89,3 +93,15 @@ def test_save_to_file_saves_model_to_file_as_json(consumemodel_fixture):
         assert value in line
 
     os.remove(TEST_FILE)
+
+
+def test_save_media_to_file_saves_media_to_filesystem(consumemodel_fixture):
+    """Test consumemodel.save_media_to_file does what it says on the tin."""
+    test_consumemodel = consumemodel_fixture
+    test_consumemodel.load_from_config(TEST_CONFIG)
+    test_consumemodel.save_media_to_file(TEST_PATH)
+
+    assert os.path.exists(EXPECTED_MEDIA_PATH)
+    assert os.path.isfile(EXPECTED_MEDIA_FILE)
+
+    shutil.rmtree('/tmp/staples')
