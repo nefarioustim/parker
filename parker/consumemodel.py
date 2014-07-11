@@ -112,6 +112,8 @@ class ConsumeModel(object):
         data['crumbs'] = self.crumb_list if len(self.crumb_list) > 0 else None
         data['media'] = [
             mediafile.filename
+            if mediafile.filename is not None
+            else mediafile.uri
             for mediafile in self.media_list
         ] if len(self.media_list) > 0 else None
 
