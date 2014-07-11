@@ -110,7 +110,10 @@ class ConsumeModel(object):
         data = self.data_dict.copy()
         data['key_value_data'] = self.key_value_dict
         data['crumbs'] = self.crumb_list if len(self.crumb_list) > 0 else None
-        data['media'] = self.media_list if len(self.media_list) > 0 else None
+        data['media'] = [
+            mediafile.filename
+            for mediafile in self.media_list
+        ] if len(self.media_list) > 0 else None
 
         data.update({
             "uri": self.uri,

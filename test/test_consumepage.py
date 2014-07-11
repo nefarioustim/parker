@@ -5,6 +5,7 @@ import pytest
 from pyquery import PyQuery
 from parker import parser, consumepage, parsedpage
 from parker.configloader import load_site_config
+from parker.mediafile import MediaFile
 from test_client import client_fixture
 from test_page import page_fixture
 import utils
@@ -30,8 +31,8 @@ EXPECTED_CRUMB_LIST = [
     u'Desktop Stationery | Clips | Accessories',
     u'Staplers'
 ]
-EXPECTED_MEDIA_LIST = [
-    '//www.staples.co.uk/content/images/product/uk_412852_1_xnl.jpg'
+EXPECTED_MEDIA_LIST_URLS = [
+    'http://www.staples.co.uk/content/images/product/uk_412852_1_xnl.jpg'
 ]
 EXPECTED_DATA_DICT = {
     'title': 'Full Strip Stapler',
@@ -112,7 +113,9 @@ def test_get_media_list_by_selector_returns_expected_list(
         TEST_MEDIA_ATTRIBUTE
     )
 
-    assert media_list == EXPECTED_MEDIA_LIST
+    for mediafile in media_list:
+        assert isinstance(mediafile, MediaFile)
+        assert mediafile.uri in EXPECTED_MEDIA_LIST_URLS
 
 
 def test_get_data_dict_from_config_returns_expected_dict(

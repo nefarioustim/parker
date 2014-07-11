@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """ConsumePage object for Parker."""
 
+import urlparse
 import page
 import parser
+import mediafile
 
 _instances = dict()
 
@@ -74,7 +76,12 @@ class ConsumePage(object):
     ):
         """Return a list of media."""
         return [
-            media.attrib[media_attribute]
+            mediafile.get_instance(
+                urlparse.urlparse(
+                    media.attrib[media_attribute],
+                    scheme="http"
+                ).geturl()
+            )
             for media in self.parsedpage.get_nodes_by_selector(media_selector)
         ]
 

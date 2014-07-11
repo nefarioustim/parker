@@ -5,6 +5,7 @@ import os
 import pytest
 from parker import consumemodel, fileops
 from parker.configloader import load_site_config
+from parker.mediafile import MediaFile
 from test_client import client_fixture
 from test_page import page_fixture
 from test_consumepage import consumepage_fixture
@@ -25,8 +26,8 @@ EXPECTED_CRUMB_LIST = [
     u'Desktop Stationery | Clips | Accessories',
     u'Staplers'
 ]
-EXPECTED_MEDIA_LIST = [
-    '//www.staples.co.uk/content/images/product/uk_412852_1_xnl.jpg'
+EXPECTED_MEDIA_LIST_URLS = [
+    'http://www.staples.co.uk/content/images/product/uk_412852_1_xnl.jpg'
 ]
 EXPECTED_DATA_DICT = {
     'title': 'Full Strip Stapler',
@@ -63,8 +64,11 @@ def test_load_from_config_populates_model(consumemodel_fixture):
     assert test_consumemodel.data_dict == EXPECTED_DATA_DICT
     assert test_consumemodel.key_value_dict == EXPECTED_KV_DICT
     assert test_consumemodel.crumb_list == EXPECTED_CRUMB_LIST
-    assert test_consumemodel.media_list == EXPECTED_MEDIA_LIST
     assert test_consumemodel.unique_field == EXPECTED_UNIQUE_FIELD
+
+    for mediafile in test_consumemodel.media_list:
+        assert isinstance(mediafile, MediaFile)
+        assert mediafile.uri in EXPECTED_MEDIA_LIST_URLS
 
 
 def test_save_to_file_saves_model_to_file_as_json(consumemodel_fixture):
