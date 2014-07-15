@@ -8,17 +8,16 @@ from parker import client
 import utils
 
 TEST_URI = 'http://httpbin.org/get'
-TEST_CONTENT = utils.load_stub_as_string('staples-stapler.html')
+TEST_CONSUME_CONTENT = utils.load_stub_as_string('staples-stapler.html')
+TEST_CRAWL_CONTENT = utils.load_stub_as_string('staples-home.html')
 TEST_STATUS_CODE = 200
 
 
-@pytest.fixture(scope="function")
-def client_fixture(monkeypatch):
-    """Test fixture to ensure correct mocking for client."""
+def _fixture(content, monkeypatch):
     mocked_response = Mock(
         spec=Response()
     )
-    mocked_response.content = TEST_CONTENT
+    mocked_response.content = content
     mocked_response.status_code = TEST_STATUS_CODE
     mocked_response.iter_content.return_value = utils.load_stub_as_iterable(
         'stapler.jpg'
@@ -36,6 +35,18 @@ def client_fixture(monkeypatch):
     )
 
     return client.get_instance()
+
+
+@pytest.fixture(scope="function")
+def client_fixture(monkeypatch):
+    """Test fixture to ensure correct mocking for client."""
+    return _fixture(TEST_CONSUME_CONTENT, monkeypatch)
+
+
+@pytest.fixture(scope="function")
+def client_fixture_crawl(monkeypatch):
+    """Test fixture to ensure correct mocking for client."""
+    return _fixture(TEST_CRAWL_CONTENT, monkeypatch)
 
 
 def test_get_instance_creates_client_object():
@@ -64,7 +75,7 @@ def test_get_content_returns_stubbed_content(client_fixture):
     test_client = client_fixture
     content = test_client.get_content(TEST_URI)
 
-    assert content == TEST_CONTENT
+    assert content == TEST_CONSUME_CONTENT
 
 
 def test_get_iter_content_calls_response_iter_content(client_fixture):

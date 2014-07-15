@@ -3,22 +3,33 @@
 
 import pytest
 from parker import page, client
-from test_client import client_fixture
+from test_client import client_fixture, client_fixture_crawl
 import utils
 
 TEST_URI = "http://www.staples.co.uk/full-strip-stapler/cbs/412852.html"
+TEST_URI_CRAWL = "http://www.staples.co.uk/"
 TEST_CONTENT = utils.load_stub_as_string('staples-stapler.html')
+
+
+def _fixture(fixture, uri):
+    test_page = page.get_instance(
+        uri=uri
+    )
+    test_page.client = fixture
+
+    return test_page
 
 
 @pytest.fixture(scope="function")
 def page_fixture(client_fixture):
     """Test fixture to ensure correct mocking for page."""
-    test_page = page.get_instance(
-        uri=TEST_URI
-    )
-    test_page.client = client_fixture
+    return _fixture(client_fixture, TEST_URI)
 
-    return test_page
+
+@pytest.fixture(scope="function")
+def page_fixture_crawl(client_fixture_crawl):
+    """Test fixture to ensure correct mocking for page."""
+    return _fixture(client_fixture_crawl, TEST_URI_CRAWL)
 
 
 def test_get_instance_creates_page_object():
