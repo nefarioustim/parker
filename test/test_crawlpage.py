@@ -8,7 +8,8 @@ from test_page import page_fixture_crawl
 import utils
 
 TEST_URI = "http://www.staples.co.uk/"
-EXPECTED_URIS = utils.load_stub_as_json('expecteduris.json')
+EXPECTED_URI_COUNT = 300
+EXPECTED_URIS = set(utils.load_stub_as_json('expecteduris.json'))
 
 
 @pytest.fixture(scope="function")
@@ -40,10 +41,10 @@ def test_get_instance_raises_typeerror_unexpected_parameter_type():
 
 
 def test_get_uris_returns_list_of_internal_uris(crawlpage_fixture):
-    """Test crawlpage.get_uris returns a list of internal URIs."""
+    """Test crawlpage.get_uris returns a set of internal URIs."""
     test_crawlpage = crawlpage_fixture
     uris = test_crawlpage.get_uris(TEST_URI)
 
-    assert isinstance(uris, list)
-    assert len(uris) == len(EXPECTED_URIS)
+    assert isinstance(uris, set)
+    assert len(uris) == EXPECTED_URI_COUNT
     assert uris == EXPECTED_URIS

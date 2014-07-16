@@ -47,10 +47,10 @@ class CrawlPage(object):
         return "%s(%s)" % (self.__class__, self.uri)
 
     def get_uris(self, base_uri):
-        """Return a list of internal URIs."""
-        return [
+        """Return a set of internal URIs."""
+        return {
             link.attrib['href']
             for link in self.parsedpage.get_nodes_by_selector('a')
             if 'href' in link.attrib
             and base_uri in link.attrib['href']
-        ]
+        }
