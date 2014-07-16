@@ -9,6 +9,7 @@ import utils
 TEST_URI = "http://www.staples.co.uk/full-strip-stapler/cbs/412852.html"
 TEST_URI_CRAWL = "http://www.staples.co.uk/"
 TEST_CONTENT = utils.load_stub_as_string('staples-stapler.html')
+TEST_HASH = "0dde441f3c6bf49ce133c7aedf8e11b734b56926b487574654715bf97ff87dec"
 
 
 def _fixture(fixture, uri):
@@ -50,3 +51,4 @@ def test_fetch_populates_page_content(page_fixture):
     test_page.fetch()
 
     assert test_page.content == TEST_CONTENT
+    assert test_page.hash == TEST_HASH

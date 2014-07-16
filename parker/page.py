@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Page object for Parker."""
 
+import hashlib
 import client
 
 _instances = dict()
@@ -39,3 +40,6 @@ class Page(object):
         self.content = self.client.get_content(
             uri=self.uri
         )
+        self.hash = hashlib.sha256(
+            self.content
+        ).hexdigest()
