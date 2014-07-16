@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Module of utilities for testing."""
 
+import json
 import os
 import urllib2
 
@@ -42,3 +43,13 @@ def load_stub_as_iterable(filename):
     )
 
     return open(filepath, "r")
+
+
+def load_stub_as_json(filename):
+    """Load a stub file as JSON."""
+    filepath = os.path.join(
+        STUB_PATH,
+        filename
+    )
+
+    return json.load(open(filepath))
