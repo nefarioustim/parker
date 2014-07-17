@@ -2,4 +2,5 @@ mock
 pyquery
 pytest
 pytest-cov
+redis
 requests
