@@ -25,7 +25,7 @@ def test_get_instance_creates_crawlpage_object():
     assert test_set.__repr__() == expected_repr
 
 
-def test_has_returns_true(redisset_fixture):
+def test_has_returns_true_if_key_exists(redisset_fixture):
     """Test redisset.has returns something if key exists in set."""
     test_redisset = redisset_fixture
 
@@ -34,3 +34,10 @@ def test_has_returns_true(redisset_fixture):
     assert test_redisset.has(TEST_HASH)
 
     test_redisset.redis.srem(TEST_SET_KEY, TEST_HASH)
+
+
+def test_has_returns_false_if_key_does_not_exist(redisset_fixture):
+    """Test redisset.has returns false if key does not exist in set."""
+    test_redisset = redisset_fixture
+
+    assert not test_redisset.has(TEST_HASH)
