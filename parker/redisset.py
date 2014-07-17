@@ -42,3 +42,17 @@ class RedisSet(object):
             self.key,
             value
         )
+
+    def add(self, value):
+        """Add value to set."""
+        return self.redis.sadd(
+            self.key,
+            value
+        )
+
+    def delete(self, value):
+        """Delete key from set."""
+        return self.redis.srem(
+            self.key,
+            value
+        )
