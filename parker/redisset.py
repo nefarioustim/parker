@@ -35,3 +35,10 @@ class RedisSet(object):
     def __repr__(self):
         """Return an unambiguous representation."""
         return "%s(%s)" % (self.__class__, self.key)
+
+    def has(self, value):
+        """Test set has value."""
+        return self.redis.sismember(
+            self.key,
+            value
+        )
