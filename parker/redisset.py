@@ -56,3 +56,7 @@ class RedisSet(object):
             self.key,
             value
         )
+
+    def destroy(self):
+        """Destroy the set."""
+        return self.redis.delete(self.key)

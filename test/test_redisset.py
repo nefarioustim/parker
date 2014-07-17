@@ -67,3 +67,14 @@ def test_delete_removes_value_from_set(redisset_fixture):
     test_redisset.delete(TEST_HASH)
 
     assert not test_redisset.has(TEST_HASH)
+
+
+def test_destroy_destroys_the_set(redisset_fixture):
+    """Test redisset.destroy destroys the redisset."""
+    test_redisset = redisset_fixture
+    test_redisset.add(TEST_HASH)
+
+    test_redisset.destroy()
+
+    assert not test_redisset.has(TEST_HASH)
+    assert not test_redisset.redis.exists(TEST_SET_KEY)
