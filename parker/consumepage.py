@@ -43,6 +43,7 @@ class ConsumePage(object):
         """Constructor."""
         self.parsedpage = parsedpage
         self.uri = parsedpage.page.uri
+        self.hash = parsedpage.page.hash
 
     def __repr__(self):
         """Return an unambiguous representation."""

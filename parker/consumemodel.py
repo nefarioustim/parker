@@ -38,6 +38,7 @@ class ConsumeModel(object):
         """Constructor."""
         self.consumepage = consumepage
         self.uri = consumepage.uri
+        self.hash = consumepage.hash
         self.unique_field = None
         self.site = None
         self.data_dict = None
