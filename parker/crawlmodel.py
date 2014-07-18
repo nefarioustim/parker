@@ -35,3 +35,13 @@ class CrawlModel(object):
         """Constructor."""
         self.crawlpage = crawlpage
         self.uri = crawlpage.uri
+        self.hash = crawlpage.hash
+        self.site = None
+        self.uri_base = None
+        self.uris_to_crawl = None
+
+    def load_from_config(self, config):
+        """Load model from passed configuration."""
+        self.site = config.get("id", False)
+        self.uri_base = config.get("uri_base", False)
+        self.uris_to_crawl = self.crawlpage.get_uris(self.uri_base)
