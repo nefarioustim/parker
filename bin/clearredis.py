@@ -3,8 +3,7 @@
 """Command-line interface to clear Redis."""
 
 import argparse
-from parker.redisset import get_instance
-from parker.queues import crawl_q, consume_q
+from parker.workers import killer
 
 parser = argparse.ArgumentParser(
     description=(
@@ -17,17 +16,5 @@ parser.add_argument(
     help='the name of the site'
 )
 args = parser.parse_args()
-site = args.site
 
-crawl_q.empty()
-consume_q.empty()
-
-visited = get_instance(
-    "%s:%s" % (site, 'visited')
-)
-consume = get_instance(
-    "%s:%s" % (site, 'consume')
-)
-
-visited.destroy()
-consume.destroy()
+killer(args.site)
