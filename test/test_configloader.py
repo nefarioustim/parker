@@ -12,6 +12,7 @@ EXPECTED_SITE_CONFIG = {
     "id": "staples",
     "uri_base": "http://www.staples.co.uk/",
     "uri_start_crawl": "http://www.staples.co.uk/",
+    "consume_selector": "#PageInner .skuPage",
     "unique_field": "sku",
     "specific_data": {
         "title": {
