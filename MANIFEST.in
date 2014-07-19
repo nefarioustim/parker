@@ -1,0 +1,2 @@
+include bin/*
+include etc/parker/*
