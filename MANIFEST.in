@@ -2,3 +2,4 @@ include bin/*
 include etc/parker/*
 include etc/parker/sites/*
 include VERSION
+include requirements.txt
