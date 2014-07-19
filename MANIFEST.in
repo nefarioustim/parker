@@ -1,5 +1,8 @@
-include bin/*
-include etc/parker/*
-include etc/parker/sites/*
+graft bin
+graft etc/parker
+graft test
 include VERSION
 include requirements.txt
+global-exclude .DS_Store
+global-exclude *.pyc
+global-exclude __pycache__

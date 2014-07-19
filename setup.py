@@ -7,7 +7,7 @@ of configured sites.
 
 """
 
-from setuptools import setup
+from setuptools import setup, find_packages
 from pip.req import parse_requirements
 
 version_file = open('VERSION')
@@ -26,5 +26,6 @@ setup(
     description='A web spider for collecting specific data across a set of '
                 'configured sites',
     long_description=__doc__,
-    install_requires=reqs
+    install_requires=reqs,
+    packages=['parker']
 )
