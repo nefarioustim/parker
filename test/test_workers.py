@@ -4,7 +4,7 @@
 import os.path
 import shutil
 from parker import fileops
-from parker.workers import consumer, crawler
+from parker.workers import consumer, crawler, killer
 from test_client import client_fixture, client_fixture_crawl
 
 TEST_URI = "http://www.staples.co.uk/full-strip-stapler/cbs/412852.html"
@@ -52,3 +52,4 @@ def test_consumer_writes_data_to_file(client_fixture):
 def test_crawler_adds_links_to_crawl_queue(client_fixture_crawl):
     """Test workers.crawler adds links to the crawl or consume queue."""
     crawler(TEST_SITE, TEST_URI_CRAWL)
+    killer(TEST_SITE)
