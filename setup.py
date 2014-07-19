@@ -27,5 +27,6 @@ setup(
                 'configured sites',
     long_description=__doc__,
     install_requires=reqs,
-    packages=['parker']
+    packages=['parker'],
+    scripts=['bin/parker-clean', 'bin/parker-crawl']
 )
