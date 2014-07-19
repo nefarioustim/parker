@@ -1,5 +1,3 @@
-graft bin
-graft etc/parker
 graft test
 include VERSION
 include requirements.txt
