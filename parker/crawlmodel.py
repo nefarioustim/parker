@@ -8,14 +8,14 @@ _instances = dict()
 
 def get_instance(page_to_crawl):
     """Return an instance of CrawlModel."""
-    if isinstance(page_to_crawl, str):
+    if isinstance(page_to_crawl, unicode):
         uri = page_to_crawl
         page_to_crawl = crawlpage.get_instance(uri)
     elif isinstance(page_to_crawl, crawlpage.CrawlPage):
         uri = page_to_crawl.uri
     else:
         raise TypeError(
-            "get_instance() expects a parker.CrawlPage or str derivative."
+            "get_instance() expects a parker.CrawlPage or unicode derivative."
         )
 
     try:
