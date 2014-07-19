@@ -8,6 +8,7 @@ install: clean-pyc install-parker
 
 install-parker: ./venv
 	pip install -e .
+	sudo ln -s $(shell pwd)/etc/parker /etc/parker
 
 ./venv:
 	virtualenv venv
