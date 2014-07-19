@@ -46,12 +46,7 @@ def crawler(site, uri=None):
                 model.uri
             )
         else:
-            for crawl_uri in model.uris_to_crawl:
-                crawl_q.enqueue(
-                    crawler,
-                    site,
-                    crawl_uri
-                )
+            _enqueue_crawl_uris(site, model.uris_to_crawl)
 
 
 def killer(site):
@@ -83,3 +78,12 @@ def _get_model(model_name, site, uri):
     )
     model.load_from_config(config)
     return model
+
+
+def _enqueue_crawl_uris(site, uris):
+    for crawl_uri in uris:
+        crawl_q.enqueue(
+            crawler,
+            site,
+            crawl_uri
+        )
