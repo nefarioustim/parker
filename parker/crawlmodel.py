@@ -39,9 +39,13 @@ class CrawlModel(object):
         self.site = None
         self.uri_base = None
         self.uris_to_crawl = None
+        self.is_consume_page = False
 
     def load_from_config(self, config):
         """Load model from passed configuration."""
         self.site = config.get("id", False)
         self.uri_base = config.get("uri_base", False)
         self.uris_to_crawl = self.crawlpage.get_uris(self.uri_base)
+        self.is_consume_page = self.crawlpage.has_selector(
+            config.get("consume_selector", False)
+        )

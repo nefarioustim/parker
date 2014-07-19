@@ -42,3 +42,4 @@ def test_load_from_config_populates_model(crawlmodel_fixture):
     assert test_crawlmodel.site == TEST_CONFIG_NAME
     assert test_crawlmodel.uri_base == EXPECTED_URI_BASE
     assert test_crawlmodel.uris_to_crawl == EXPECTED_URIS
+    assert not test_crawlmodel.is_consume_page
