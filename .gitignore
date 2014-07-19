@@ -1,6 +1,8 @@
 *.lock
 *.egg-info
 
+build/
+dist/
 venv/
 
 .coverage
