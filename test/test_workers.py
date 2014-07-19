@@ -3,9 +3,12 @@
 
 import os.path
 import shutil
+import pytest
 from parker import fileops
 from parker.workers import consumer, crawler, killer
+from parker.queues import crawl_q, consume_q
 from test_client import client_fixture, client_fixture_crawl
+import utils
 
 TEST_URI = "http://www.staples.co.uk/full-strip-stapler/cbs/412852.html"
 TEST_URI_CRAWL = "http://www.staples.co.uk/"
@@ -26,6 +29,7 @@ EXPECTED_MEDIA_FILE = os.path.join(
     '852',
     'WW-412852_0.jpg'
 )
+EXPECTED_JOBS = 300
 
 
 def test_consumer_writes_data_to_file(client_fixture):
@@ -49,7 +53,25 @@ def test_consumer_writes_data_to_file(client_fixture):
     ))
 
 
+@pytest.mark.skipif(not utils.is_online(), reason="Currently offline.")
 def test_crawler_adds_links_to_crawl_queue(client_fixture_crawl):
-    """Test workers.crawler adds links to the crawl or consume queue."""
+    """Test workers.crawler adds links to the crawl queue."""
+    killer(TEST_SITE)
     crawler(TEST_SITE, TEST_URI_CRAWL)
+
+    assert len(crawl_q.jobs) == EXPECTED_JOBS
+    assert len(consume_q.jobs) == 0
+
+    killer(TEST_SITE)
+
+
+@pytest.mark.skipif(not utils.is_online(), reason="Currently offline.")
+def test_crawler_adds_links_to_consume_queue(client_fixture):
+    """Test workers.crawler adds links to the consume queue."""
+    killer(TEST_SITE)
+    crawler(TEST_SITE, TEST_URI)
+
+    assert len(crawl_q.jobs) == 0
+    assert len(consume_q.jobs) == 1
+
     killer(TEST_SITE)
