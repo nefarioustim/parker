@@ -11,7 +11,7 @@ _instances = dict()
 
 def get_instance(page_to_consume):
     """Return an instance of ConsumeModel."""
-    if isinstance(page_to_consume, unicode):
+    if isinstance(page_to_consume, basestring):
         uri = page_to_consume
         page_to_consume = consumepage.get_instance(uri)
     elif isinstance(page_to_consume, consumepage.ConsumePage):
@@ -19,7 +19,7 @@ def get_instance(page_to_consume):
     else:
         raise TypeError(
             "get_instance() expects a parker.ConsumePage "
-            "or unicode derivative."
+            "or basestring derivative."
         )
 
     try:
