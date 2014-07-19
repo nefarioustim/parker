@@ -6,7 +6,6 @@ import os
 
 CONFIG_EXT = ".json"
 CONFIG_PATH = os.path.join(
-    os.environ['PROJECT'],
     'etc',
     'parker'
 )
