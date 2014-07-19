@@ -55,3 +55,7 @@ class CrawlPage(object):
             if 'href' in link.attrib
             and base_uri in link.attrib['href']
         }
+
+    def has_selector(self, consume_selector):
+        """Test if page has selector."""
+        return bool(self.parsedpage.get_nodes_by_selector(consume_selector))

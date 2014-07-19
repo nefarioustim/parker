@@ -3,11 +3,12 @@
 
 import pytest
 from parker import parser, crawlpage, parsedpage
-from test_client import client_fixture_crawl
-from test_page import page_fixture_crawl
+from test_client import client_fixture_crawl, client_fixture
+from test_page import page_fixture_crawl, page_fixture
 import utils
 
 TEST_URI = "http://www.staples.co.uk/"
+TEST_CONSUME_SELECTOR = "#PageInner .skuPage"
 EXPECTED_URI_COUNT = 300
 EXPECTED_URIS = set(utils.load_stub_as_json('expecteduris.json'))
 
@@ -48,3 +49,19 @@ def test_get_uris_returns_list_of_internal_uris(crawlpage_fixture):
     assert isinstance(uris, set)
     assert len(uris) == EXPECTED_URI_COUNT
     assert uris == EXPECTED_URIS
+
+
+def test_has_selector_returns_false_if_not(crawlpage_fixture):
+    """Test crawlpage.has_selector returns false if selector not in page."""
+    test_crawlpage = crawlpage_fixture
+
+    assert not test_crawlpage.has_selector(TEST_CONSUME_SELECTOR)
+
+
+def test_has_selector_returns_true_if_has(page_fixture):
+    """Test crawlpage.has_selector returns true if selector in page."""
+    test_crawlpage = crawlpage.get_instance(
+        page_fixture
+    )
+
+    assert test_crawlpage.has_selector(TEST_CONSUME_SELECTOR)
