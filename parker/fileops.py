@@ -3,9 +3,21 @@
 
 import json
 import os
+from configloader import load_config
 from stringops import generate_chunks
 
-VAR_DIR = os.path.join(os.environ.get('PROJECT'), 'var')
+try:
+    _config = load_config("parker")
+except:
+    _config = {}
+
+VAR_DIR = _config.get(
+    "storage-directory",
+    os.path.join(
+        os.environ.get('PROJECT'),
+        'var'
+    )
+)
 LOG_DIR = os.path.join(VAR_DIR, 'log')
 DATA_DIR = os.path.join(VAR_DIR, 'data')
 IMG_DIR = os.path.join(VAR_DIR, 'img')
