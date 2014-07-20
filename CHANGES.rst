@@ -1,3 +1,13 @@
+0.5.1
+----------------------------------------
+
+- Fix an issue with the order of key-value reference resolution
+  that prevented the effective use of unique_field if using a
+  field that was a kv_ref.
+
+- Add some Parker specific configuration so we can specify where
+  to download, in case the PROJECT env variable doesn't exist.
+
 0.5.0
 ----------------------------------------
 
