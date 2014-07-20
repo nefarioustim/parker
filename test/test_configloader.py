@@ -22,6 +22,9 @@ EXPECTED_SITE_CONFIG = {
         "sku": {
             "selector": ".skuDetails .iNumber",
             "regex_filter": "([a-zA-Z0-9\\-]+)$"
+        },
+        "colour": {
+            "kv_ref": "Colour :"
         }
     },
     "key_value_data": {

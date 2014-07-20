@@ -20,7 +20,6 @@ EXPECTED_KV_DICT = {
     u'Staple Compatibility :': u'26/06/2014',
     u'Brands :': u'Staples',
     u'Stapling Capacity (sheets) :': u'20 sheets',
-    u'Colour :': u'Black',
     u'Quantity :': u'1'
 }
 EXPECTED_CRUMB_LIST = [
@@ -33,7 +32,8 @@ EXPECTED_MEDIA_LIST_URLS = [
 ]
 EXPECTED_DATA_DICT = {
     'title': 'Full Strip Stapler',
-    'sku': 'WW-412852'
+    'sku': 'WW-412852',
+    'colour': 'Black'
 }
 EXPECTED_UNIQUE_FIELD = 'WW-412852'
 EXPECTED_MEDIA_PATH = "/tmp/staples/WW-/412/852"
