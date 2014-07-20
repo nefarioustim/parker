@@ -28,8 +28,8 @@ def read(*names):
 long_description = """
 %(README)s
 
-News
-====
+Changes
+====================
 
 %(CHANGES)s
 
