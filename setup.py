@@ -28,14 +28,5 @@ setup(
     long_description=__doc__,
     install_requires=reqs,
     packages=['parker'],
-    scripts=['bin/parker-clean', 'bin/parker-crawl'],
-    data_files=[
-        ('/etc/parker', [
-            'etc/parker/client.json',
-            'etc/parker/redis.json'
-        ]),
-        ('/etc/parker/sites', [
-            'etc/parker/sites/staples.json'
-        ])
-    ]
+    scripts=['bin/parker-clean', 'bin/parker-crawl']
 )
