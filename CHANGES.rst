@@ -1,3 +1,12 @@
+0.5.0
+----------------------------------------
+
+- Update ConsumeModel to post process the data. This enables us to
+  populate specific data from a reference to a key-value field.
+
+- Reorder changes so newest first, and rename to "Changes" in the
+  long description.
+
 0.4.2
 ----------------------------------------
 
