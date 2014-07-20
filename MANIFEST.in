@@ -1,6 +1,7 @@
 graft parker/config
 graft test
 include VERSION
+include CHANGES.rst
 include requirements.txt
 global-exclude .DS_Store
 global-exclude *.pyc
