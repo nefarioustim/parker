@@ -28,5 +28,7 @@ setup(
     long_description=__doc__,
     install_requires=reqs,
     packages=['parker'],
-    scripts=['bin/parker-clean', 'bin/parker-crawl']
+    scripts=['bin/parker-clean', 'bin/parker-crawl'],
+    include_package_data=True,
+    zip_safe=False
 )

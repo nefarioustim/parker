@@ -1,3 +1,4 @@
+graft parker/config
 graft test
 include VERSION
 include requirements.txt
