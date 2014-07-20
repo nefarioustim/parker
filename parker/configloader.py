@@ -8,9 +8,13 @@ _path = os.path.abspath(__file__)
 _dir_path = os.path.dirname(_path)
 
 CONFIG_EXT = ".json"
-CONFIG_PATH = os.path.join(
-    _dir_path,
-    'config'
+CONFIG_DIR = "config"
+CONFIG_PATH = os.getenv(
+    'PARKER_CONFIG',
+    os.path.join(
+        _dir_path,
+        CONFIG_DIR
+    )
 )
 CONFIG_SITES_PATH = 'sites'
 

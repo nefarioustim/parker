@@ -1,0 +1,40 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""Command-line interface to install custom configuration for Parker."""
+
+import os.path
+import shutil
+import argparse
+import parker.fileops
+from parker.configloader import CONFIG_DIR
+
+_path = os.path.abspath(parker.fileops.__file__)
+_dir_path = os.path.dirname(_path)
+
+parser = argparse.ArgumentParser(
+    description=(
+        'Install Parker configuration to a given directory.'
+    )
+)
+parser.add_argument(
+    'dir',
+    type=str,
+    help='the directory where you wish to store your configuration.'
+)
+args = parser.parse_args()
+
+dest_dir = os.path.abspath(args.dir)
+
+print "\nCopying configuration to %s... " % dest_dir,
+
+shutil.copytree(
+    os.path.join(
+        _dir_path,
+        CONFIG_DIR
+    ),
+    args.dir
+)
+
+print "[ COMPLETE ]\n"
+print "Please add the following line to your .bashrc:\n"
+print "export PARKER_CONFIG=\"%s\"\n" % dest_dir
