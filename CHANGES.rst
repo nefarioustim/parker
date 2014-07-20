@@ -11,3 +11,8 @@
 - Updated documentation to use proper reStructuredText files.
 
 - Add a CHANGES file to track updates.
+
+0.4.1
+----------
+
+- Bug fix to see if RST in ASCII fixes issues on PyPI.
