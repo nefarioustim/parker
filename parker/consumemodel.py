@@ -79,12 +79,11 @@ class ConsumeModel(object):
     def load_from_config(self, config):
         """Load model from passed configuration."""
         self.site = config.get("id", False)
-        specific_data_config = config.get("specific_data", False)
-        self._load_data(
-            specific_data_config
-        )
         self._load_key_value(
             config.get("key_value_data", False)
+        )
+        self._load_data(
+            config.get("specific_data", False)
         )
         self._load_crumb(
             config.get("crumbs", False)
@@ -96,12 +95,12 @@ class ConsumeModel(object):
             config.get("unique_field", False),
             False
         )
-        self._post_process_data(specific_data_config)
 
     def _load_data(self, data_config):
         self.data_dict = self.consumepage.get_data_dict_from_config(
             data_config
         ) if data_config else None
+        self._post_process_data(data_config)
 
     def _load_key_value(self, key_value_config):
         self.key_value_dict = self.consumepage.get_key_value_dict_by_selectors(
