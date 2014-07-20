@@ -4,10 +4,13 @@
 import json
 import os
 
+_path = os.path.abspath(__file__)
+_dir_path = os.path.dirname(_path)
+
 CONFIG_EXT = ".json"
 CONFIG_PATH = os.path.join(
-    'etc',
-    'parker'
+    _dir_path,
+    'config'
 )
 CONFIG_SITES_PATH = 'sites'
 
