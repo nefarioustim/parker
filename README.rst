@@ -1,5 +1,6 @@
+========================================
 Parker
-======
+========================================
 
 Parker is a Python-based web spider for collecting specific data
 across a set of configured sites.
@@ -10,14 +11,14 @@ Non-Python requirements:
 - libxml - for HTML parsing of pages
 
 Installation
-------
+----------------------------------------
 
 Install using ``pip``::
 
     $ pip install parker
 
 Configuration
-------
+----------------------------------------
 
 To configure Parker, you will need to install the configuration
 files in a suitable location for the user running Parker. To do

@@ -50,11 +50,7 @@ setup(
     author_email='tim@nefariousdesigns.co.uk',
     description='A web spider for collecting specific data across a set of '
                 'configured sites',
-    long_description=long_description.decode(
-        "utf-8"
-    ).encode(
-        "ascii", "ignore"
-    ),
+    long_description=long_description,
     install_requires=reqs,
     packages=['parker'],
     scripts=[
