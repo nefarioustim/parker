@@ -29,7 +29,7 @@ EXPECTED_MEDIA_FILE = os.path.join(
     '852',
     'WW-412852_0.jpg'
 )
-EXPECTED_JOBS = 300
+EXPECTED_JOBS = 299
 
 
 def test_consumer_writes_data_to_file(client_fixture):

@@ -29,11 +29,12 @@ def consumer(site, uri):
 
 def crawler(site, uri=None):
     """Crawl URI using site config."""
-    visited_set, consume_set = _get_site_sets(site)
+    visited_set, visited_uri_set, consume_set = _get_site_sets(site)
     model = _get_model('crawl', site, uri)
 
     if not visited_set.has(model.hash):
         visited_set.add(model.hash)
+        visited_uri_set.add(model.uri)
 
         if (
             model.is_consume_page
@@ -46,24 +47,31 @@ def crawler(site, uri=None):
                 model.uri
             )
         else:
-            _enqueue_crawl_uris(site, model.uris_to_crawl)
+            for crawl_uri in model.uris_to_crawl:
+                if not visited_uri_set.has(crawl_uri):
+                    crawl_q.enqueue(
+                        crawler,
+                        site,
+                        crawl_uri
+                    )
 
 
 def killer(site):
     """Kill queues and Redis sets."""
-    visited_set, consume_set = _get_site_sets(site)
-
     crawl_q.empty()
     consume_q.empty()
 
-    visited_set.destroy()
-    consume_set.destroy()
+    for site_set in _get_site_sets(site):
+        site_set.destroy()
 
 
 def _get_site_sets(site):
     return (
         get_redisset(
             "%s:%s" % (site, 'visited')
+        ),
+        get_redisset(
+            "%s:%s" % (site, 'visited-uri')
         ),
         get_redisset(
             "%s:%s" % (site, 'consume')
@@ -78,12 +86,3 @@ def _get_model(model_name, site, uri):
     )
     model.load_from_config(config)
     return model
-
-
-def _enqueue_crawl_uris(site, uris):
-    for crawl_uri in uris:
-        crawl_q.enqueue(
-            crawler,
-            site,
-            crawl_uri
-        )
