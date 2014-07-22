@@ -1,3 +1,10 @@
+0.6.0
+----------------------------------------
+
+- Add tracking of visited URIs as well as page hashes to the
+  crawl worker. Use that to reduce the number of URIs added to
+  the crawl queue.
+
 0.5.1
 ----------------------------------------
 
