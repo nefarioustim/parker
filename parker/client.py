@@ -38,8 +38,10 @@ class Client(object):
     """HTTP client object."""
 
     headers = {
-        'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,\
-            image/webp,*/*;q=0.8',
+        'accept': (
+            'text/html,application/xhtml+xml,application/xml;'
+            'q=0.9,image/webp,*/*;q=0.8'
+        ),
         'accept-encoding': 'gzip,deflate,sdch',
         'accept-language': 'en-GB,en-US;q=0.8,en;q=0.6',
         'cache-control': 'no-cache',
@@ -61,7 +63,7 @@ class Client(object):
         """Return Requests response to GET request."""
         proxy = self.proxy if not disable_proxy else False
 
-        return requests.get(
+        response = requests.get(
             uri,
             headers=self.headers,
             allow_redirects=True,
@@ -70,26 +72,18 @@ class Client(object):
             proxies=proxy
         )
 
-    def get_content(self, uri, disable_proxy=False):
-        """Return content from URI if Response status is good."""
-        response = self.get(uri=uri, disable_proxy=disable_proxy)
-
         if response.status_code in _PERMITTED_STATUS_CODES:
             self.response_headers = response.headers
-            return response.content
+            return response.content if not stream else response.iter_content()
         else:
             raise requests.exceptions.HTTPError(
                 "HTTP response did not have a permitted status code."
             )
+
+    def get_content(self, uri, disable_proxy=False):
+        """Return content from URI if Response status is good."""
+        return self.get(uri=uri, disable_proxy=disable_proxy)
 
     def get_iter_content(self, uri, disable_proxy=False):
         """Return iterable content from URI if Response status is good."""
-        response = self.get(uri=uri, disable_proxy=disable_proxy, stream=True)
-
-        if response.status_code in _PERMITTED_STATUS_CODES:
-            self.response_headers = response.headers
-            return response.iter_content()
-        else:
-            raise requests.exceptions.HTTPError(
-                "HTTP response did not have a permitted status code."
-            )
+        return self.get(uri=uri, disable_proxy=disable_proxy, stream=True)
