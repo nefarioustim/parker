@@ -3,7 +3,7 @@
 
 import pytest
 from mock import Mock, MagicMock
-from requests import Response
+from requests import Response, exceptions
 from parker import client
 import utils
 
@@ -11,14 +11,15 @@ TEST_URI = 'http://httpbin.org/get'
 TEST_CONSUME_CONTENT = utils.load_stub_as_string('staples-stapler.html')
 TEST_CRAWL_CONTENT = utils.load_stub_as_string('staples-home.html')
 TEST_STATUS_CODE = 200
+TEST_BAD_STATUS_CODE = 410
 
 
-def _fixture(content, monkeypatch):
+def _fixture(content, status_code, monkeypatch):
     mocked_response = Mock(
         spec=Response()
     )
     mocked_response.content = content
-    mocked_response.status_code = TEST_STATUS_CODE
+    mocked_response.status_code = status_code
     mocked_response.iter_content.return_value = utils.load_stub_as_iterable(
         'stapler.jpg'
     )
@@ -40,13 +41,19 @@ def _fixture(content, monkeypatch):
 @pytest.fixture(scope="function")
 def client_fixture(monkeypatch):
     """Test fixture to ensure correct mocking for client."""
-    return _fixture(TEST_CONSUME_CONTENT, monkeypatch)
+    return _fixture(TEST_CONSUME_CONTENT, TEST_STATUS_CODE, monkeypatch)
 
 
 @pytest.fixture(scope="function")
 def client_fixture_crawl(monkeypatch):
     """Test fixture to ensure correct mocking for client."""
-    return _fixture(TEST_CRAWL_CONTENT, monkeypatch)
+    return _fixture(TEST_CRAWL_CONTENT, TEST_STATUS_CODE, monkeypatch)
+
+
+@pytest.fixture(scope="function")
+def bad_client_fixture(monkeypatch):
+    """Test fixture to ensure correct mocking for client."""
+    return _fixture(TEST_CONSUME_CONTENT, TEST_BAD_STATUS_CODE, monkeypatch)
 
 
 def test_get_instance_creates_client_object():
@@ -85,3 +92,10 @@ def test_get_iter_content_calls_response_iter_content(client_fixture):
     content = test_client.get_iter_content(TEST_URI)
 
     assert client.requests.get.call_args[1]['stream']
+
+
+def test_get_content_throws_exception_when_bad_status(bad_client_fixture):
+    """Test client.get_content throws exception on bad status code."""
+    test_client = bad_client_fixture
+    with pytest.raises(exceptions.HTTPError):
+        content = test_client.get_content(TEST_URI)
