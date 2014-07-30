@@ -52,8 +52,9 @@ def client_fixture_crawl(monkeypatch):
 def test_get_instance_creates_client_object():
     """Test client.get_instance creates a Client object."""
     test_client = client.get_instance()
-    expected_repr = "<class 'parker.client.Client'>(%s)" % (
-        test_client.headers["user_agent"]
+    expected_repr = "<class 'parker.client.Client'>(%s)(%s)" % (
+        test_client.headers["user_agent"],
+        test_client.proxy
     )
 
     assert isinstance(test_client, client.Client)

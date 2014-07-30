@@ -24,11 +24,13 @@ def get_instance():
         random.randint(0, len(proxies) - 1)
     ] if len(proxies) > 0 else None
 
+    instance_key = "%s:%s" % (user_agent, proxy)
+
     try:
-        instance = _instances[user_agent]
+        instance = _instances[instance_key]
     except KeyError:
         instance = Client(user_agent, proxy)
-        _instances[user_agent] = instance
+        _instances[instance_key] = instance
 
     return instance
 
@@ -57,7 +59,11 @@ class Client(object):
 
     def __repr__(self):
         """Return an unambiguous representation."""
-        return "%s(%s)" % (self.__class__, self.headers["user_agent"])
+        return "%s(%s)(%s)" % (
+            self.__class__,
+            self.headers["user_agent"],
+            self.proxy
+        )
 
     def get(self, uri, disable_proxy=False, stream=False):
         """Return Requests response to GET request."""
