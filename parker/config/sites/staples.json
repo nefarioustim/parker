@@ -1,5 +1,10 @@
 {
     "id": "staples",
+    "class": "supplies",
+    "tags": [
+        "office",
+        "stationary"
+    ],
     "uri_base": "http://www.staples.co.uk/",
     "uri_start_crawl": "http://www.staples.co.uk/",
     "consume_selector": "#PageInner .skuPage",
