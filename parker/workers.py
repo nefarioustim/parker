@@ -22,6 +22,7 @@ def consumer(site, uri):
     model.save_to_file(
         os.path.join(
             DATA_DIR,
+            model.classification,
             site + '.data'
         )
     )

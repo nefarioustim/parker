@@ -13,8 +13,10 @@ import utils
 TEST_URI = "http://www.staples.co.uk/full-strip-stapler/cbs/412852.html"
 TEST_URI_CRAWL = "http://www.staples.co.uk/"
 TEST_SITE = "staples"
+TEST_CLASSIFICATION = "supplies"
 EXPECTED_FILE = os.path.join(
     fileops.DATA_DIR,
+    TEST_CLASSIFICATION,
     TEST_SITE + '.data'
 )
 EXPECTED_DATA_DICT = {
