@@ -59,6 +59,7 @@ class Client(object):
         """Constructor."""
         self.headers["user_agent"] = user_agent
         self.get_proxy = get_proxy
+        self.proxy = self.get_proxy()
         self.response_headers = None
 
     def __repr__(self):
@@ -76,7 +77,7 @@ class Client(object):
             allow_redirects=True,
             cookies={},
             stream=stream,
-            proxies=self.get_proxy() if not disable_proxy else False
+            proxies=self.proxy if not disable_proxy else False
         )
 
         if response.status_code in _PERMITTED_STATUS_CODES:
