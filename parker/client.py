@@ -8,28 +8,32 @@ from configloader import load_config
 DEFAULT_UA = "Parker v0.1.0"
 _PERMITTED_STATUS_CODES = [200]
 _instances = dict()
+_config = load_config('client')
+
+
+def get_proxy():
+    """Return a random proxy from proxy config."""
+    proxies = _config['proxies']
+
+    return proxies[
+        random.randint(0, len(proxies) - 1)
+    ] if len(proxies) > 0 else None
 
 
 def get_instance():
     """Return an instance of Client."""
-    config = load_config('client')
-    user_agents = config['user-agents']
-    proxies = config['proxies']
+    user_agents = _config['user-agents']
 
     user_agent = user_agents[
         random.randint(0, len(user_agents) - 1)
     ] if len(user_agents) > 0 else DEFAULT_UA
 
-    proxy = proxies[
-        random.randint(0, len(proxies) - 1)
-    ] if len(proxies) > 0 else None
-
-    instance_key = "%s:%s" % (user_agent, proxy)
+    instance_key = user_agent
 
     try:
         instance = _instances[instance_key]
     except KeyError:
-        instance = Client(user_agent, proxy)
+        instance = Client(user_agent, get_proxy)
         _instances[instance_key] = instance
 
     return instance
@@ -51,31 +55,28 @@ class Client(object):
         'pragma': 'no-cache'
     }
 
-    def __init__(self, user_agent, proxy=False):
+    def __init__(self, user_agent, get_proxy=False):
         """Constructor."""
         self.headers["user_agent"] = user_agent
-        self.proxy = proxy
+        self.get_proxy = get_proxy
         self.response_headers = None
 
     def __repr__(self):
         """Return an unambiguous representation."""
-        return "%s(%s)(%s)" % (
+        return "%s(%s)" % (
             self.__class__,
-            self.headers["user_agent"],
-            self.proxy
+            self.headers["user_agent"]
         )
 
     def get(self, uri, disable_proxy=False, stream=False):
         """Return Requests response to GET request."""
-        proxy = self.proxy if not disable_proxy else False
-
         response = requests.get(
             uri,
             headers=self.headers,
             allow_redirects=True,
             cookies={},
             stream=stream,
-            proxies=proxy
+            proxies=self.get_proxy() if not disable_proxy else False
         )
 
         if response.status_code in _PERMITTED_STATUS_CODES:
