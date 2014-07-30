@@ -10,6 +10,8 @@ TEST_CONFIG_VALUE = 'localhost'
 TEST_SITE_NAME = 'staples'
 EXPECTED_SITE_CONFIG = {
     "id": "staples",
+    "class": "supplies",
+    "tags": ["office", "stationary"],
     "uri_base": "http://www.staples.co.uk/",
     "uri_start_crawl": "http://www.staples.co.uk/",
     "consume_selector": "#PageInner .skuPage",
