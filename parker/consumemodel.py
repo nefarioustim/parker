@@ -40,6 +40,8 @@ class ConsumeModel(object):
         self.consumepage = consumepage
         self.uri = consumepage.uri
         self.hash = consumepage.hash
+        self.classification = None
+        self.tags = None
         self.unique_field = None
         self.site = None
         self.data_dict = None
@@ -79,6 +81,8 @@ class ConsumeModel(object):
     def load_from_config(self, config):
         """Load model from passed configuration."""
         self.site = config.get("id", False)
+        self.classification = config.get("class", False)
+        self.tags = config.get("tags", False)
         self._load_key_value(
             config.get("key_value_data", False)
         )
@@ -132,16 +136,18 @@ class ConsumeModel(object):
 
     def _get_prepped_data_for_dump(self):
         data = self.data_dict.copy()
-        data['key_value_data'] = self.key_value_dict
-        data['crumbs'] = self.crumb_list if len(self.crumb_list) > 0 else None
-        data['media'] = [
-            mediafile.filename
-            if mediafile.filename is not None
-            else mediafile.uri
-            for mediafile in self.media_list
-        ] if len(self.media_list) > 0 else None
 
         data.update({
+            "class": self.classification,
+            "tags": self.tags,
+            "key_value_data": self.key_value_dict,
+            "crumbs": self.crumb_list if len(self.crumb_list) > 0 else None,
+            "media": [
+                mediafile.filename
+                if mediafile.filename is not None
+                else mediafile.uri
+                for mediafile in self.media_list
+            ] if len(self.media_list) > 0 else None,
             "uri": self.uri,
             "crawled": datetime.utcnow().isoformat(),
         })
