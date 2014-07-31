@@ -24,6 +24,9 @@ def consumer(site, uri):
             DATA_DIR,
             model.classification,
             site + '.data'
+        ) if model.classification is not None else os.path.join(
+            DATA_DIR,
+            site + '.data'
         )
     )
 
