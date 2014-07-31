@@ -1,3 +1,16 @@
+0.7.0
+----------------------------------------
+
+- Rework the client to allow for improved proxy failover should we
+  need it. Improve testing a little to back this up.
+
+- Add tagging to the configuration. These are simply passed through to the
+  resulting JSON objects output by the model so that you can tag them with
+  whatever you want.
+
+- Add classification to the configuration. Again this is passed through, but
+  is also used in the output file path from the consumer worker.
+
 0.6.0
 ----------------------------------------
 
