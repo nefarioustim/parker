@@ -1,3 +1,9 @@
+0.7.1
+----------------------------------------
+
+- Patch to fix an issue where, if class is not present in the site config, the
+  path includes "None".
+
 0.7.0
 ----------------------------------------
 
