@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """CrawlPage object for Parker."""
 
+import re
 import page
 import parser
+import urlparse
 
 _instances = dict()
 
@@ -50,10 +52,12 @@ class CrawlPage(object):
     def get_uris(self, base_uri):
         """Return a set of internal URIs."""
         return {
-            link.attrib['href']
+            re.sub(r'^/', base_uri, link.attrib['href'])
             for link in self.parsedpage.get_nodes_by_selector('a')
-            if 'href' in link.attrib
-            and base_uri in link.attrib['href']
+            if 'href' in link.attrib and (
+                link.attrib['href'].startswith(base_uri) or
+                link.attrib['href'].startswith('/')
+            )
         }
 
     def has_selector(self, consume_selector):
