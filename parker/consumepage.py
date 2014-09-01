@@ -76,12 +76,19 @@ class ConsumePage(object):
         self, media_selector, media_attribute="src"
     ):
         """Return a list of media."""
+        page_url = urlparse.urlparse(self.uri)
         return [
             mediafile.get_instance(
-                urlparse.urlparse(
-                    media.attrib[media_attribute],
-                    scheme="http"
-                ).geturl()
+                urlparse.urljoin(
+                    "%s://%s" % (
+                        page_url.scheme,
+                        page_url.netloc
+                    ),
+                    urlparse.urlparse(
+                        media.attrib[media_attribute],
+                        scheme="http"
+                    ).geturl()
+                )
             )
             for media in self.parsedpage.get_nodes_by_selector(media_selector)
         ]

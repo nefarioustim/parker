@@ -9,7 +9,7 @@ import utils
 TEST_URI = "http://www.staples.co.uk/full-strip-stapler/cbs/412852.html"
 TEST_URI_CRAWL = "http://www.staples.co.uk/"
 TEST_CONTENT = utils.load_stub_as_string('staples-stapler.html')
-TEST_HASH = "0dde441f3c6bf49ce133c7aedf8e11b734b56926b487574654715bf97ff87dec"
+TEST_HASH = "5aff78b7792e2438d7941e5e5833a5869af2eb2a4ea95ffbdd632113a31754b4"
 
 
 def _fixture(fixture, uri):
