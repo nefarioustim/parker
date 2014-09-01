@@ -1,3 +1,9 @@
+0.7.2
+----------------------------------------
+
+- Patch to fix an issue where the crawler was overlooking URIs that start
+  with / and are therefore relative to the base_uri configuration.
+
 0.7.1
 ----------------------------------------
 
