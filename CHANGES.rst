@@ -1,3 +1,11 @@
+0.7.3
+----------------------------------------
+
+- Patch to fix an issue where the consumer was overlooking media URIs that start
+  with / and are therefore relative to the base_uri configuration.
+
+- Added boto to the requirements for future use.
+
 0.7.2
 ----------------------------------------
 

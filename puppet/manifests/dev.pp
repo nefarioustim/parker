@@ -8,9 +8,9 @@ Exec {
 include core-env
 
 class { "user":
-    projectpath =>  "/home/${user}/${project}",
-    username => $user,
-    groupname => $user
+    name        => $user,
+    groupname   => $user,
+    projectpath => "/home/${user}/${project}"
 }
 
 include libxml
