@@ -10,6 +10,7 @@ _parsed = dict()
 
 def parse(page_to_parse):
     """Return a parse of page.content. Wraps PyQuery."""
+    global _parsed
     if not isinstance(page_to_parse, page.Page):
         raise TypeError("parser.parse requires a parker.Page object.")
 

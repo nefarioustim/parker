@@ -11,6 +11,7 @@ _instances = dict()
 
 def get_instance(page_to_consume):
     """Return an instance of ConsumeModel."""
+    global _instances
     if isinstance(page_to_consume, basestring):
         uri = page_to_consume
         page_to_consume = consumepage.get_instance(uri)

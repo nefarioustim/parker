@@ -22,6 +22,7 @@ def get_proxy():
 
 def get_instance():
     """Return an instance of Client."""
+    global _instances
     user_agents = _config['user-agents']
 
     user_agent = user_agents[

@@ -8,6 +8,7 @@ _instances = dict()
 
 def get_instance(page_to_crawl):
     """Return an instance of CrawlModel."""
+    global _instances
     if isinstance(page_to_crawl, basestring):
         uri = page_to_crawl
         page_to_crawl = crawlpage.get_instance(uri)

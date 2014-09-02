@@ -9,6 +9,7 @@ _instances = dict()
 
 def get_instance(uri):
     """Return an instance of Page."""
+    global _instances
     try:
         instance = _instances[uri]
     except KeyError:

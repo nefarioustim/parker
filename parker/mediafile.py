@@ -13,6 +13,7 @@ _content_type_map = {
 
 def get_instance(uri):
     """Return an instance of MediaFile."""
+    global _instances
     try:
         instance = _instances[uri]
     except KeyError:

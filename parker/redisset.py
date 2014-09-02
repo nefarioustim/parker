@@ -13,6 +13,7 @@ _seconds_in_five_days = 5 * _seconds_in_a_day
 
 def get_instance(key):
     """Return an instance of RedisSet."""
+    global _instances
     try:
         instance = _instances[key]
     except KeyError:
