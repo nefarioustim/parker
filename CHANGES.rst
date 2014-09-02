@@ -7,6 +7,10 @@
 - Added the ability to add an expiry time in seconds to the RedisSet
   objects, with a default of 5 days.
 
+- Added an extra set to track URIs that are already on the crawl queue. This
+  should hopefully cut down on duplication but may eat memory if there are
+  multiple possiple URIs for the same page.
+
 0.7.3
 ----------------------------------------
 

@@ -33,7 +33,7 @@ def consumer(site, uri):
 
 def crawler(site, uri=None):
     """Crawl URI using site config."""
-    visited_set, visited_uri_set, consume_set = _get_site_sets(site)
+    visited_set, visited_uri_set, consume_set, crawl_set = _get_site_sets(site)
     model = _get_model('crawl', site, uri)
 
     if not visited_set.has(model.hash):
@@ -52,7 +52,11 @@ def crawler(site, uri=None):
             )
         else:
             for crawl_uri in model.uris_to_crawl:
-                if not visited_uri_set.has(crawl_uri):
+                if (
+                    not visited_uri_set.has(crawl_uri)
+                    and not crawl_set.has(crawl_uri)
+                ):
+                    crawl_set.add(crawl_uri)
                     crawl_q.enqueue(
                         crawler,
                         site,
@@ -79,6 +83,9 @@ def _get_site_sets(site):
         ),
         get_redisset(
             "%s:%s" % (site, 'consume')
+        ),
+        get_redisset(
+            "%s:%s" % (site, 'crawl')
         )
     )
 
