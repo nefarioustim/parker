@@ -13,6 +13,9 @@ import utils
 TEST_URI = "http://www.staples.co.uk/full-strip-stapler/cbs/412852.html"
 TEST_KEY_SELECTOR = "#divSpecifications dd .l"
 TEST_VALUE_SELECTOR = "#divSpecifications dd .r"
+TEST_WITH_SUB_KEY_SELECTOR = "#divAccessories #scrollerMask .item_R .desc2"
+TEST_WITH_SUB_VALUE_SELECTOR = "#divAccessories #scrollerMask .item_R"
+TEST_WITH_SUB_SUB_SELECTOR = "span"
 TEST_CRUMB_SELECTOR = "#skuBreadCrumbs span[itemprop=title]"
 TEST_MEDIA_SELECTOR = ".s7Thumbs img"
 TEST_MEDIA_ATTRIBUTE = "data-zoomimage"
@@ -25,6 +28,32 @@ EXPECTED_KV_DICT = {
     u'Stapling Capacity (sheets) :': u'20 sheets',
     u'Colour :': u'Black',
     u'Quantity :': u'1'
+}
+EXPECTED_WITH_SUB_KV_DICT = {
+    u'Staples 26/6 Staples': [
+        u'Ex VAT \xa31.49',
+        u'Ex VAT',
+        u'\xa31.49',
+        u'5000 Per Box',
+        u'5000 Per Box',
+        u'When you buy 6+'
+    ],
+    u'Staples Size A4 White Commodity Paper 80gsm 500 Sheets': [
+        u'Ex VAT \xa32.04',
+        u'Ex VAT',
+        u'\xa32.04',
+        u'500 Per Pack',
+        u'500 Per Pack',
+        u'When you buy 60+'
+    ],
+    u'Staples Paperclips, Large, 40mm': [
+        u'Ex VAT \xa31.64',
+        u'Ex VAT',
+        u'\xa31.64',
+        u'100 Per Pack',
+        u'100 Per Pack',
+        u'When you buy 6+'
+    ]
 }
 EXPECTED_CRUMB_LIST = [
     u'Pens | Tape | Desk Supplies',
@@ -83,6 +112,23 @@ def test_get_key_value_dict_by_selectors_returns_expected_dict(
     )
 
     assert key_value_dict == EXPECTED_KV_DICT
+
+
+def test_get_key_value_dict_by_selectors_with_sub_returns_expected_dict(
+    consumepage_fixture
+):
+    """Test consumepage.get_key_value_dict_by_selectors with a sub-selector.
+
+    Ensure returns the expected dictionary of data.
+    """
+    test_consumepage = consumepage_fixture
+    key_value_dict = test_consumepage.get_key_value_dict_by_selectors(
+        key_selector=TEST_WITH_SUB_KEY_SELECTOR,
+        value_selector=TEST_WITH_SUB_VALUE_SELECTOR,
+        value_sub_selector=TEST_WITH_SUB_SUB_SELECTOR
+    )
+
+    assert key_value_dict == EXPECTED_WITH_SUB_KV_DICT
 
 
 def test_get_crumb_list_by_selector_returns_expected_list(

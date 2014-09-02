@@ -109,7 +109,8 @@ class ConsumeModel(object):
     def _load_key_value(self, key_value_config):
         self.key_value_dict = self.consumepage.get_key_value_dict_by_selectors(
             key_value_config["key_selector"],
-            key_value_config["value_selector"]
+            key_value_config["value_selector"],
+            key_value_config.get("sub_selector", None)
         ) if (
             key_value_config
             and key_value_config.get("key_selector", False)

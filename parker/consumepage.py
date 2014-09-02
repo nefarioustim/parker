@@ -49,19 +49,30 @@ class ConsumePage(object):
         """Return an unambiguous representation."""
         return "%s(%s)" % (self.__class__, self.uri)
 
-    def get_key_value_dict_by_selectors(self, key_selector, value_selector):
+    def get_key_value_dict_by_selectors(
+        self, key_selector, value_selector, value_sub_selector=None
+    ):
         """Return a dictionary of key value data."""
         key_nodes = self.parsedpage.get_nodes_by_selector(key_selector)
-        value_nodes = self.parsedpage.get_nodes_by_selector(value_selector)
-
         keys = [
             self.parsedpage.get_text_from_node(node)
             for node in key_nodes
         ]
-        vals = [
-            self.parsedpage.get_text_from_node(node)
-            for node in value_nodes
-        ]
+
+        value_nodes = self.parsedpage.get_nodes_by_selector(value_selector)
+        if value_sub_selector is not None:
+            vals = [
+                [
+                    self.parsedpage.get_text_from_node(subnode)
+                    for subnode in node.find(value_sub_selector)
+                ]
+                for node in value_nodes.items()
+            ]
+        else:
+            vals = [
+                self.parsedpage.get_text_from_node(node)
+                for node in value_nodes
+            ]
 
         return dict(zip(keys, vals))
 

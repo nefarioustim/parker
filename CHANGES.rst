@@ -1,3 +1,9 @@
+0.8.0
+----------------------------------------
+
+- Updated key-value functionality to allow a sub-selector to return
+  a list of values.
+
 0.7.3
 ----------------------------------------
 
