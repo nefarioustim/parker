@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """Test the RedisSet object."""
 
+import time
 import pytest
 from parker import redisset
 
@@ -78,3 +79,29 @@ def test_destroy_destroys_the_set(redisset_fixture):
 
     assert not test_redisset.has(TEST_HASH)
     assert not test_redisset.redis.exists(TEST_SET_KEY)
+
+
+def test_ttl_returns_ttl_of_set(redisset_fixture):
+    """Test redisset.ttl returns TTL of the set."""
+    test_redisset = redisset_fixture
+    test_redisset.add(TEST_HASH)
+    ttl = test_redisset.ttl()
+
+    assert ttl > (432000 - 60)
+
+    test_redisset.destroy()
+
+
+def test_ttl_drops_regardless_of_adds(redisset_fixture):
+    """Test the redisset.ttl continues falling despite adds."""
+    test_redisset = redisset_fixture
+    test_redisset.add('foo')
+    orig_ttl = test_redisset.ttl()
+
+    time.sleep(1)
+    test_redisset.add('bar')
+    ttl = test_redisset.ttl()
+
+    assert ttl < orig_ttl
+
+    test_redisset.destroy()

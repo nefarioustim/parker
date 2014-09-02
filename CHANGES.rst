@@ -4,6 +4,9 @@
 - Updated key-value functionality to allow a sub-selector to return
   a list of values.
 
+- Added the ability to add an expiry time in seconds to the RedisSet
+  objects, with a default of 5 days.
+
 0.7.3
 ----------------------------------------
 
