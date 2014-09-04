@@ -2,9 +2,9 @@
 """Worker methods for Parker."""
 
 import os.path
-import consumestore
 from consumemodel import get_instance as get_consume
 from crawlmodel import get_instance as get_crawl
+from consumestore import get_instance as get_consumestore
 from redisset import get_instance as get_redisset
 from queues import crawl_q, consume_q
 from configloader import load_site_config
@@ -18,17 +18,16 @@ _get_instance = {
 
 def consumer(site, uri):
     """Consume URI using site config."""
-    config = load_site_config(site)
-    model = _get_model('consume', config, uri)
-    consumestore.save_media(model)
-    consumestore.save_data(model)
+    model = _get_model('consume', site, uri)
+    consumestore = get_consumestore(model)
+    consumestore.save_media()
+    consumestore.save_data()
 
 
 def crawler(site, uri=None):
     """Crawl URI using site config."""
-    config = load_site_config(site)
+    model = _get_model('crawl', site, uri)
     visited_set, visited_uri_set, consume_set, crawl_set = _get_site_sets(site)
-    model = _get_model('crawl', config, uri)
 
     if not visited_set.has(model.hash):
         visited_set.add(model.hash)
@@ -84,7 +83,8 @@ def _get_site_sets(site):
     )
 
 
-def _get_model(model_name, config, uri):
+def _get_model(model_name, site, uri):
+    config = load_site_config(site)
     model = _get_instance[model_name](
         uri if uri is not None else config.get('uri_start_crawl', None)
     )

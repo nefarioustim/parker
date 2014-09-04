@@ -28,23 +28,21 @@ def consumestore_fixture(consumemodel_fixture):
     """Test fixture to ensure correct mocking for parsedpage."""
     test_consumemodel = consumemodel_fixture
     test_consumemodel.load_from_config(TEST_CONFIG)
-    return test_consumemodel
+    return consumestore.get_instance(test_consumemodel)
 
 
 def test_save_media_raises_typeerror_on_non_model():
-    """Test consumestore.save_media raises a TypeError when expected."""
+    """Test consumestore.get_instance raises a TypeError when expected."""
     with pytest.raises(TypeError):
-        consumestore.save_media(
-            model='',
-            path=TEST_PATH
+        consumestore.get_instance(
+            model=''
         )
 
 
 def test_save_media_saves_media_to_filesystem(consumestore_fixture):
     """Test consumestore.save_media does what it says on the tin."""
-    test_consumemodel = consumestore_fixture
-    consumestore.save_media(
-        model=test_consumemodel,
+    test_consumestore = consumestore_fixture
+    test_consumestore.save_media(
         path=TEST_PATH
     )
 
@@ -54,23 +52,13 @@ def test_save_media_saves_media_to_filesystem(consumestore_fixture):
     shutil.rmtree('/tmp/staples')
 
 
-def test_save_data_raises_typeerror_on_non_model():
-    """Test consumestore.save_data raises a TypeError when expected."""
-    with pytest.raises(TypeError):
-        consumestore.save_data(
-            model='',
-            path=TEST_PATH
-        )
-
-
 def test_save_data_saves_model_to_file_as_json(consumestore_fixture):
     """Test consumestore.save_data saves the model to the passed file.
 
     Model should be saved as JSON.
     """
-    test_consumemodel = consumestore_fixture
-    consumestore.save_data(
-        model=test_consumemodel,
+    test_consumestore = consumestore_fixture
+    test_consumestore.save_data(
         path=TEST_PATH
     )
 
