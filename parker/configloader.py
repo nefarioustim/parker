@@ -21,10 +21,7 @@ CONFIG_SITES_PATH = 'sites'
 
 def _load_config_json(file_path):
     """Load the passed file as JSON."""
-    try:
-        return json.load(open(file_path))
-    except:
-        return {}
+    return json.load(open(file_path))
 
 
 def load_config(name):
