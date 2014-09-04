@@ -6,10 +6,7 @@ import os
 from configloader import load_config
 from stringops import generate_chunks
 
-try:
-    _config = load_config("parker")
-except:
-    _config = {}
+_config = load_config("parker")
 
 VAR_DIR = _config.get(
     "storage-directory",

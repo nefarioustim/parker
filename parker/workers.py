@@ -7,8 +7,10 @@ from crawlmodel import get_instance as get_crawl
 from consumestore import get_instance as get_consumestore
 from redisset import get_instance as get_redisset
 from queues import crawl_q, consume_q
-from configloader import load_site_config
+from configloader import load_site_config, load_config
 from fileops import IMG_DIR, DATA_DIR
+
+_config = load_config("parker")
 
 _get_instance = {
     'consume': get_consume,
