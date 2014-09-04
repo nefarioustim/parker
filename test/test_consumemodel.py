@@ -73,35 +73,3 @@ def test_load_from_config_populates_model(consumemodel_fixture):
     for mediafile in test_consumemodel.media_list:
         assert isinstance(mediafile, MediaFile)
         assert mediafile.uri in EXPECTED_MEDIA_LIST_URLS
-
-
-def test_save_to_file_saves_model_to_file_as_json(consumemodel_fixture):
-    """Test consumemodel.save_to_file saves the model to the passed file.
-
-    Model should be saved as JSON.
-    """
-    test_consumemodel = consumemodel_fixture
-    test_consumemodel.load_from_config(TEST_CONFIG)
-    test_consumemodel.save_to_file(TEST_FILE)
-
-    assert os.path.exists(TEST_FILE)
-    assert os.path.isfile(TEST_FILE)
-
-    line = fileops.get_line_from_file(TEST_FILE).next()
-
-    for key, value in EXPECTED_DATA_DICT.iteritems():
-        assert value in line
-
-    os.remove(TEST_FILE)
-
-
-def test_save_media_to_file_saves_media_to_filesystem(consumemodel_fixture):
-    """Test consumemodel.save_media_to_file does what it says on the tin."""
-    test_consumemodel = consumemodel_fixture
-    test_consumemodel.load_from_config(TEST_CONFIG)
-    test_consumemodel.save_media_to_file(TEST_PATH)
-
-    assert os.path.exists(EXPECTED_MEDIA_PATH)
-    assert os.path.isfile(EXPECTED_MEDIA_FILE)
-
-    shutil.rmtree('/tmp/staples')

@@ -1,40 +1,50 @@
 # -*- coding: utf-8 -*-
 """Storage class for ConsumeModel objects."""
 
+import os.path
+import fileops
 from consumemodel import ConsumeModel
-from fileops import DATA_DIR, IMG_DIR
-
-_instances = dict()
 
 
-def get_instance(model):
-    """Return an instance of ConsumeStore."""
-    global _instances
-    if isinstance(model, ConsumeModel):
-        key = model.uri
-    else:
-        raise TypeError(
-            "get_instance() expects a parker.ConsumeModel derivative."
+def save_media(model, path=fileops.IMG_DIR):
+    _raise_typeerror_on_bad_model(model)
+    path = fileops.get_chunk_path_from_string(
+        model.unique_field,
+        prefix=os.path.join(
+            path,
+            model.site
         )
+    )
 
-    try:
-        instance = _instances[key]
-    except KeyError:
-        instance = ConsumeStore(model)
-        _instances[key] = instance
+    for i, mediafile in enumerate(model.media_list):
+        if not os.path.exists(path):
+            fileops.create_dirs(path)
 
-    return instance
+        filename = os.path.join(
+            path,
+            "%s_%d" % (model.unique_field, i)
+        )
+        mediafile.fetch_to_file(filename)
 
 
-class ConsumeStore(object):
+def save_data(model, path=fileops.DATA_DIR):
+    _raise_typeerror_on_bad_model(model)
+    path = os.path.join(
+        path,
+        model.classification,
+        model.site + '.data'
+    ) if model.classification is not None else os.path.join(
+        path,
+        model.site + '.data'
+    )
+    fileops.dump_dict_to_file(
+        model.get_dict(),
+        path
+    )
 
-    """Object for storing ConsumeModel objects."""
 
-    def __init__(self, model):
-        self.model = model
-
-    def save_media():
-        pass
-
-    def save_data():
-        pass
+def _raise_typeerror_on_bad_model(model):
+    if not isinstance(model, ConsumeModel):
+        raise TypeError(
+            "Expecting a ConsumeModel derivative."
+        )

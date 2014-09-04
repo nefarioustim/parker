@@ -50,35 +50,6 @@ class ConsumeModel(object):
         self.crumb_list = None
         self.media_list = None
 
-    def save_to_file(self, file_path):
-        """Save model to file."""
-        data_dict = self.get_dict()
-        fileops.dump_dict_to_file(
-            data_dict,
-            file_path
-        )
-
-    def save_media_to_file(self, file_path):
-        """Save media to file."""
-        path = fileops.get_chunk_path_from_string(
-            self.unique_field,
-            prefix=os.path.join(
-                file_path,
-                self.site,
-
-            )
-        )
-
-        for i, mediafile in enumerate(self.media_list):
-            if not os.path.exists(path):
-                fileops.create_dirs(path)
-
-            filename = os.path.join(
-                path,
-                "%s_%d" % (self.unique_field, i)
-            )
-            mediafile.fetch_to_file(filename)
-
     def load_from_config(self, config):
         """Load model from passed configuration."""
         self.site = config.get("id", False)

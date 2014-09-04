@@ -2,6 +2,7 @@
 """Worker methods for Parker."""
 
 import os.path
+import consumestore
 from consumemodel import get_instance as get_consume
 from crawlmodel import get_instance as get_crawl
 from redisset import get_instance as get_redisset
@@ -18,17 +19,8 @@ _get_instance = {
 def consumer(site, uri):
     """Consume URI using site config."""
     model = _get_model('consume', site, uri)
-    model.save_media_to_file(IMG_DIR)
-    model.save_to_file(
-        os.path.join(
-            DATA_DIR,
-            model.classification,
-            site + '.data'
-        ) if model.classification is not None else os.path.join(
-            DATA_DIR,
-            site + '.data'
-        )
-    )
+    consumestore.save_media(model)
+    consumestore.save_data(model)
 
 
 def crawler(site, uri=None):

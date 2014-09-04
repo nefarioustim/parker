@@ -1,25 +1,85 @@
 # -*- coding: utf-8 -*-
 """Test the ConsumeStore object."""
 
+import os
+import shutil
 import pytest
-from parker import consumestore
+from parker import consumestore, fileops
+from parker.configloader import load_site_config
 from test_consumemodel import (
     client_fixture, page_fixture, consumepage_fixture, consumemodel_fixture
 )
 
+TEST_CONFIG_NAME = "staples"
+TEST_CONFIG = load_site_config(TEST_CONFIG_NAME)
+TEST_FILE = "/tmp/supplies/staples.data"
+TEST_PATH = "/tmp"
+EXPECTED_MEDIA_PATH = "/tmp/staples/WW-/412/852"
+EXPECTED_MEDIA_FILE = "/tmp/staples/WW-/412/852/WW-412852_0.jpg"
+EXPECTED_DATA_DICT = {
+    'title': 'Full Strip Stapler',
+    'sku': 'WW-412852',
+    'colour': 'Black'
+}
 
-def test_get_instance_creates_consumestore_object(consumemodel_fixture):
-    """Test consumestore.get_instance creates a ConsumeStore object."""
-    test_consumestore = consumestore.get_instance(
-        model=consumemodel_fixture
+
+@pytest.fixture(scope="function")
+def consumestore_fixture(consumemodel_fixture):
+    """Test fixture to ensure correct mocking for parsedpage."""
+    test_consumemodel = consumemodel_fixture
+    test_consumemodel.load_from_config(TEST_CONFIG)
+    return test_consumemodel
+
+
+def test_save_media_raises_typeerror_on_non_model():
+    """Test consumestore.save_media raises a TypeError when expected."""
+    with pytest.raises(TypeError):
+        consumestore.save_media(
+            model='',
+            path=TEST_PATH
+        )
+
+
+def test_save_media_saves_media_to_filesystem(consumestore_fixture):
+    """Test consumestore.save_media does what it says on the tin."""
+    test_consumemodel = consumestore_fixture
+    consumestore.save_media(
+        model=test_consumemodel,
+        path=TEST_PATH
     )
 
-    assert isinstance(test_consumestore, consumestore.ConsumeStore)
+    assert os.path.exists(EXPECTED_MEDIA_PATH)
+    assert os.path.isfile(EXPECTED_MEDIA_FILE)
+
+    shutil.rmtree('/tmp/staples')
 
 
-def test_get_instance_raises_type_error_on_non_model():
-    """Test consumestore.get_instance raises a TypeError if a non-model is passed in."""
+def test_save_data_raises_typeerror_on_non_model():
+    """Test consumestore.save_data raises a TypeError when expected."""
     with pytest.raises(TypeError):
-        test_consumestore = consumestore.get_instance(
-            model=''
+        consumestore.save_data(
+            model='',
+            path=TEST_PATH
         )
+
+
+def test_save_data_saves_model_to_file_as_json(consumestore_fixture):
+    """Test consumestore.save_data saves the model to the passed file.
+
+    Model should be saved as JSON.
+    """
+    test_consumemodel = consumestore_fixture
+    consumestore.save_data(
+        model=test_consumemodel,
+        path=TEST_PATH
+    )
+
+    assert os.path.exists(TEST_FILE)
+    assert os.path.isfile(TEST_FILE)
+
+    line = fileops.get_line_from_file(TEST_FILE).next()
+
+    for key, value in EXPECTED_DATA_DICT.iteritems():
+        assert value in line
+
+    os.remove(TEST_FILE)
