@@ -52,7 +52,7 @@ class ConsumeModel(object):
 
     def save_to_file(self, file_path):
         """Save model to file."""
-        data_dict = self._get_prepped_data_for_dump()
+        data_dict = self.get_dict()
         fileops.dump_dict_to_file(
             data_dict,
             file_path
@@ -101,6 +101,27 @@ class ConsumeModel(object):
             False
         )
 
+    def get_dict(self):
+        """Return a dictionary of the object primed for dumping."""
+        data = self.data_dict.copy()
+
+        data.update({
+            "class": self.classification,
+            "tags": self.tags,
+            "key_value_data": self.key_value_dict,
+            "crumbs": self.crumb_list if len(self.crumb_list) > 0 else None,
+            "media": [
+                mediafile.filename
+                if mediafile.filename is not None
+                else mediafile.uri
+                for mediafile in self.media_list
+            ] if len(self.media_list) > 0 else None,
+            "uri": self.uri,
+            "dumped": datetime.utcnow().isoformat(),
+        })
+
+        return data
+
     def _load_data(self, data_config):
         self.data_dict = self.consumepage.get_data_dict_from_config(
             data_config
@@ -135,26 +156,6 @@ class ConsumeModel(object):
             and media_config.get("selector", False)
             and media_config.get("attribute", False)
         ) else None
-
-    def _get_prepped_data_for_dump(self):
-        data = self.data_dict.copy()
-
-        data.update({
-            "class": self.classification,
-            "tags": self.tags,
-            "key_value_data": self.key_value_dict,
-            "crumbs": self.crumb_list if len(self.crumb_list) > 0 else None,
-            "media": [
-                mediafile.filename
-                if mediafile.filename is not None
-                else mediafile.uri
-                for mediafile in self.media_list
-            ] if len(self.media_list) > 0 else None,
-            "uri": self.uri,
-            "crawled": datetime.utcnow().isoformat(),
-        })
-
-        return data
 
     def _post_process_data(self, config):
         for key, item in config.iteritems():
