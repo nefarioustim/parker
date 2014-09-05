@@ -34,12 +34,10 @@ class StoreBase(object):
     @abc.abstractmethod
     def store_media(self, filename, mediafile):
         """Store media files."""
-        return
 
     @abc.abstractmethod
     def store_json(self):
         """Store json files."""
-        return
 
 
 class FileStore(StoreBase):
@@ -53,7 +51,9 @@ class FileStore(StoreBase):
 
     def __repr__(self):
         """Return an unambiguous representation."""
-        return "%s(%s:%s)" % (self.__class__, self.img_dir, self.data_dir)
+        return "%s(%s:%s)" % (
+            self.__class__, self.img_dir, self.data_dir
+        )
 
     def store_media(self, filename, mediafile):
         filename = os.path.join(
@@ -64,5 +64,12 @@ class FileStore(StoreBase):
             fileops.create_dirs(filename)
         mediafile.fetch_to_file(filename)
 
-    def store_json(self):
-        pass
+    def store_json(self, filename, dict_to_store):
+        filename = os.path.join(
+            self.data_dir,
+            filename
+        )
+        fileops.dump_dict_to_file(
+            dict_to_store,
+            filename
+        )

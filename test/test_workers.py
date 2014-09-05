@@ -17,6 +17,7 @@ TEST_CLASSIFICATION = "supplies"
 EXPECTED_FILE = os.path.join(
     fileops.DATA_DIR,
     TEST_CLASSIFICATION,
+    TEST_SITE,
     TEST_SITE + '.data'
 )
 EXPECTED_DATA_DICT = {

@@ -12,7 +12,7 @@ from test_consumemodel import (
 
 TEST_CONFIG_NAME = "staples"
 TEST_CONFIG = load_site_config(TEST_CONFIG_NAME)
-TEST_FILE = "/tmp/supplies/staples.data"
+TEST_FILE = "/tmp/supplies/staples/staples.data"
 TEST_PATH = "/tmp"
 EXPECTED_MEDIA_PATH = "/tmp/supplies/staples/WW-/412/852"
 EXPECTED_MEDIA_FILE = "/tmp/supplies/staples/WW-/412/852/WW-412852_0.jpg"
@@ -60,9 +60,7 @@ def test_save_data_saves_model_to_file_as_json(consumestore_fixture):
     Model should be saved as JSON.
     """
     test_consumestore = consumestore_fixture
-    test_consumestore.save_data(
-        path=TEST_PATH
-    )
+    test_consumestore.save_data()
 
     assert os.path.exists(TEST_FILE)
     assert os.path.isfile(TEST_FILE)

@@ -63,19 +63,15 @@ class ConsumeStore(object):
             )
             self.store.store_media(filename, mediafile)
 
-    def save_data(self, path=fileops.DATA_DIR):
+    def save_data(self):
         """Store data as a JSON dump."""
-        path = os.path.join(
-            path,
-            self.model.classification,
-            self.model.site + '.data'
-        ) if self.model.classification is not None else os.path.join(
-            path,
+        filename = os.path.join(
+            self._get_prefix(),
             self.model.site + '.data'
         )
-        fileops.dump_dict_to_file(
-            self.model.get_dict(),
-            path
+        self.store.store_json(
+            filename,
+            self.model.get_dict()
         )
 
     def _get_prefix(self):
