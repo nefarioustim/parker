@@ -57,19 +57,11 @@ def get_line_from_file(filename):
         yield row.strip()
 
 
-def get_chunk_path_from_string(string, prefix=None, chunk=3):
+def get_chunk_path_from_string(string, chunk=3):
     """Return a chunked path from string."""
-    path = os.path.join(
+    return os.path.join(
         *list(generate_chunks(
             string,
             chunk
         ))
     )
-
-    if prefix is not None:
-        path = os.path.join(
-            prefix,
-            path
-        )
-
-    return path

@@ -25,7 +25,8 @@ EXPECTED_DATA_DICT = {
 }
 EXPECTED_MEDIA_FILE = os.path.join(
     fileops.IMG_DIR,
-    'staples',
+    TEST_CLASSIFICATION,
+    TEST_SITE,
     'WW-',
     '412',
     '852',
@@ -51,7 +52,8 @@ def test_consumer_writes_data_to_file(client_fixture):
     os.remove(EXPECTED_FILE)
     shutil.rmtree(os.path.join(
         fileops.IMG_DIR,
-        'staples'
+        TEST_CLASSIFICATION,
+        TEST_SITE
     ))
 
 

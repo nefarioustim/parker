@@ -12,8 +12,7 @@ TEST_DICT = {
 }
 TEST_DICT_LINE = '{"this": "dict"}'
 TEST_CHUNK_STRING = 'MAGICUNICORNS'
-TEST_PREFIX = parker.fileops.IMG_DIR
-EXPECTED_CHUNK_PATH = '/home/vagrant/parker/var/img/MAG/ICU/NIC/ORN/S'
+EXPECTED_CHUNK_PATH = 'MAG/ICU/NIC/ORN/S'
 
 
 def test_create_dirs_actually_creates_dirs():
@@ -48,8 +47,7 @@ def test_dump_dict_to_file():
 def test_get_chunk_path_from_string():
     """Test fileops.get_chunk_path_from_string returns the expected path."""
     path = parker.fileops.get_chunk_path_from_string(
-        TEST_CHUNK_STRING,
-        prefix=TEST_PREFIX
+        TEST_CHUNK_STRING
     )
 
     assert path == EXPECTED_CHUNK_PATH
