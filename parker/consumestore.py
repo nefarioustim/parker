@@ -76,8 +76,12 @@ class ConsumeStore(object):
 
     def _get_prefix(self):
         prefix_list = [self.model.site]
-        if self.model.classification:
-            prefix_list.insert(0, self.model.classification)
+        prefix_list.insert(
+            0,
+            self.model.classification
+            if self.model.classification
+            else UNCLASSIFIED_PREFIX
+        )
 
         return os.path.join(
             *prefix_list
