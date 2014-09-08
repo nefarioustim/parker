@@ -90,7 +90,7 @@ class FileStore(StoreBase):
         """Store json files."""
         filename = os.path.join(
             self.data_dir,
-            filename
+            filename + '.data'
         )
         fileops.dump_dict_to_file(
             dict_to_store,
@@ -129,3 +129,7 @@ class S3Store(StoreBase):
 
     def store_json(self, filename, dict_to_store):
         """Store json files."""
+        s3_key = Key(self.bucket)
+        # s3_key.key = os.path.join(
+        #     '/images',
+        #     filenam

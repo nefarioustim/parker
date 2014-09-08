@@ -72,7 +72,7 @@ class ConsumeStore(object):
         """Store data as a JSON dump."""
         filename = os.path.join(
             self._get_prefix(),
-            self.model.site + '.data'
+            self.model.site
         )
         self.store.store_json(
             filename,
