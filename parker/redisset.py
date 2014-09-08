@@ -11,7 +11,7 @@ _seconds_in_a_day = 60 * 60 * 24
 _seconds_in_five_days = 5 * _seconds_in_a_day
 
 
-def get_instance(key):
+def get_instance(key, expire=None):
     """Return an instance of RedisSet."""
     global _instances
     try:
@@ -19,7 +19,8 @@ def get_instance(key):
     except KeyError:
         instance = RedisSet(
             key,
-            _redis
+            _redis,
+            expire=expire
         )
         _instances[key] = instance
 
@@ -30,11 +31,11 @@ class RedisSet(object):
 
     """Wrapper object for Redis sets."""
 
-    def __init__(self, key, redis, expire=_seconds_in_five_days):
+    def __init__(self, key, redis, expire=None):
         """Constructor."""
         self.key = key
         self.redis = redis
-        self.expire = expire
+        self.expire = expire or _seconds_in_five_days
 
     def __repr__(self):
         """Return an unambiguous representation."""

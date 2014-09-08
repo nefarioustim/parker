@@ -20,7 +20,8 @@ _get_instance = {
 
 def consumer(site, uri, method=None):
     """Consume URI using site config."""
-    model = _get_model('consume', site, uri)
+    config = load_site_config(site)
+    model = _get_model('consume', config, uri)
     consumestore = get_consumestore(
         model=model,
         method=method or _config.get('storage', 'file')
@@ -31,8 +32,11 @@ def consumer(site, uri, method=None):
 
 def crawler(site, uri=None):
     """Crawl URI using site config."""
-    model = _get_model('crawl', site, uri)
-    visited_set, visited_uri_set, consume_set, crawl_set = _get_site_sets(site)
+    config = load_site_config(site)
+    model = _get_model('crawl', config, uri)
+    visited_set, visited_uri_set, consume_set, crawl_set = _get_site_sets(
+        site, config
+    )
 
     if not visited_set.has(model.hash):
         visited_set.add(model.hash)
@@ -64,32 +68,36 @@ def crawler(site, uri=None):
 
 def killer(site):
     """Kill queues and Redis sets."""
+    config = load_site_config(site)
     crawl_q.empty()
     consume_q.empty()
 
-    for site_set in _get_site_sets(site):
+    for site_set in _get_site_sets(site, config):
         site_set.destroy()
 
 
-def _get_site_sets(site):
+def _get_site_sets(site, config):
     return (
         get_redisset(
-            "%s:%s" % (site, 'visited')
+            "%s:%s" % (site, 'visited'),
+            config.get('seconds_until_expire', None)
         ),
         get_redisset(
-            "%s:%s" % (site, 'visited-uri')
+            "%s:%s" % (site, 'visited-uri'),
+            config.get('seconds_until_expire', None)
         ),
         get_redisset(
-            "%s:%s" % (site, 'consume')
+            "%s:%s" % (site, 'consume'),
+            config.get('seconds_until_expire', None)
         ),
         get_redisset(
-            "%s:%s" % (site, 'crawl')
+            "%s:%s" % (site, 'crawl'),
+            config.get('seconds_until_expire', None)
         )
     )
 
 
-def _get_model(model_name, site, uri):
-    config = load_site_config(site)
+def _get_model(model_name, config, uri):
     model = _get_instance[model_name](
         uri if uri is not None else config.get('uri_start_crawl', None)
     )

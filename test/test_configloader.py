@@ -12,6 +12,7 @@ EXPECTED_SITE_CONFIG = {
     "id": "staples",
     "class": "supplies",
     "tags": ["office", "stationary"],
+    "seconds_until_expire": 259200,
     "uri_base": "http://www.staples.co.uk/",
     "uri_start_crawl": "http://www.staples.co.uk/",
     'crawl_uri_filters': ['staples_soul'],
