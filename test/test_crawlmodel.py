@@ -12,7 +12,12 @@ import utils
 TEST_CONFIG_NAME = "staples"
 TEST_CONFIG = load_site_config(TEST_CONFIG_NAME)
 EXPECTED_URI_BASE = "http://www.staples.co.uk/"
-EXPECTED_URIS = set(utils.load_stub_as_json('expecteduris.json'))
+uri_list = utils.load_stub_as_json('expecteduris.json')
+uri_list.remove(
+    "http://www.staples.co.uk/content/static/customerservice"
+    "/aboutus/staples_soul.cshtml?icid=ft:sssl"
+)
+EXPECTED_URIS = set(uri_list)
 
 
 @pytest.fixture(scope="function")

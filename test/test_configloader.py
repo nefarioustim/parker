@@ -14,6 +14,7 @@ EXPECTED_SITE_CONFIG = {
     "tags": ["office", "stationary"],
     "uri_base": "http://www.staples.co.uk/",
     "uri_start_crawl": "http://www.staples.co.uk/",
+    'crawl_uri_filters': ['staples_soul'],
     "consume_selector": "#PageInner .skuPage",
     "unique_field": "sku",
     "specific_data": {

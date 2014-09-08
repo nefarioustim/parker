@@ -50,7 +50,7 @@ class CrawlPage(object):
         """Return an unambiguous representation."""
         return "%s(%s)" % (self.__class__, self.uri)
 
-    def get_uris(self, base_uri):
+    def get_uris(self, base_uri, filter_list=None):
         """Return a set of internal URIs."""
         return {
             re.sub(r'^/', base_uri, link.attrib['href'])
@@ -58,9 +58,20 @@ class CrawlPage(object):
             if 'href' in link.attrib and (
                 link.attrib['href'].startswith(base_uri) or
                 link.attrib['href'].startswith('/')
-            )
+            ) and
+            not is_uri_to_be_filtered(link.attrib['href'], filter_list)
         }
 
     def has_selector(self, consume_selector):
         """Test if page has selector."""
         return bool(self.parsedpage.get_nodes_by_selector(consume_selector))
+
+
+def is_uri_to_be_filtered(uri, filter_list):
+    """Test whether @uri should be filtered by @filter_list."""
+    match = False
+    if filter_list:
+        for uri_filter in filter_list:
+            if re.search(uri_filter, uri, flags=re.IGNORECASE):
+                match = True
+        return match
