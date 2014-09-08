@@ -18,12 +18,12 @@ _get_instance = {
 }
 
 
-def consumer(site, uri):
+def consumer(site, uri, method=None):
     """Consume URI using site config."""
     model = _get_model('consume', site, uri)
     consumestore = get_consumestore(
         model=model,
-        method=_config.get('storage', 'file')
+        method=method or _config.get('storage', 'file')
     )
     consumestore.save_media()
     consumestore.save_data()

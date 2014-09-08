@@ -36,7 +36,7 @@ class StoreBase(object):
         """Store media files."""
 
     @abc.abstractmethod
-    def store_json(self):
+    def store_json(self, filename, dict_to_store):
         """Store json files."""
 
 
@@ -60,8 +60,7 @@ class FileStore(StoreBase):
             self.img_dir,
             filename
         )
-        if not os.path.exists(filename):
-            fileops.create_dirs(filename)
+        fileops.create_dirs(filename)
         mediafile.fetch_to_file(filename)
 
     def store_json(self, filename, dict_to_store):
@@ -73,3 +72,20 @@ class FileStore(StoreBase):
             dict_to_store,
             filename
         )
+
+
+class S3Store(StoreBase):
+
+    """Class for S3 storage."""
+
+    def __init__(self, bucket):
+        """Constructor."""
+        self.bucket = bucket
+        self.img_dir = img_dir or fileops.IMG_DIR
+        self.data_dir = data_dir or fileops.DATA_DIR
+
+    def store_media(self, filename, mediafile):
+        """Store media files."""
+
+    def store_json(self, filename, dict_to_store):
+        """Store json files."""

@@ -14,6 +14,7 @@ TEST_URI = "http://www.staples.co.uk/full-strip-stapler/cbs/412852.html"
 TEST_URI_CRAWL = "http://www.staples.co.uk/"
 TEST_SITE = "staples"
 TEST_CLASSIFICATION = "supplies"
+TEST_METHOD = "file"
 EXPECTED_FILE = os.path.join(
     fileops.DATA_DIR,
     TEST_CLASSIFICATION,
@@ -38,7 +39,7 @@ EXPECTED_JOBS = 299
 
 def test_consumer_writes_data_to_file(client_fixture):
     """Test workers.consumer writes correct data to file system."""
-    consumer(TEST_SITE, TEST_URI)
+    consumer(TEST_SITE, TEST_URI, method=TEST_METHOD)
 
     assert os.path.isfile(EXPECTED_MEDIA_FILE)
 

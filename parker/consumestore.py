@@ -29,7 +29,7 @@ def get_instance(
     else:
         raise ValueError("Unexpected method value, '%s'." % method)
 
-    key = "%s:%s" % (repr(model), repr(method))
+    key = "%s:%s" % (repr(model), repr(my_store))
 
     try:
         instance = _instances[key]
