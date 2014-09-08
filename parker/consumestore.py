@@ -12,7 +12,8 @@ _instances = dict()
 
 def get_instance(
     model, method="file",
-    img_dir=None, data_dir=None
+    img_dir=None, data_dir=None,
+    bucket=None
 ):
     """Return an instance of ConsumeStore."""
     global _instances
@@ -25,6 +26,10 @@ def get_instance(
         my_store = store.get_filestore_instance(
             img_dir=img_dir,
             data_dir=data_dir
+        )
+    elif method == "s3":
+        my_store = store.get_s3store_instance(
+            bucket=bucket
         )
     else:
         raise ValueError("Unexpected method value, '%s'." % method)
