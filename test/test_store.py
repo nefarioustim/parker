@@ -8,7 +8,20 @@ from test_mediafile import mediafile_fixture, client_fixture
 
 TEST_BUCKET = 'test_bucket.test.parker.python'
 TEST_FILENAME = 'BIG/FAT/TEST_FILE_0'
+TEST_DICT = {
+    "foo": "bar",
+    "fuzzy": "duck",
+    "big": {
+        "data": "google",
+        "butts": "sir mixalot"
+    },
+    "list": [
+        "barney",
+        "fred"
+    ]
+}
 EXPECTED_FILENAME = '/tmp/BIG/FAT/TEST_FILE_0'
+EXPECTED_JSON = '{"fuzzy": "duck", "foo": "bar", "list": ["barney", "fred"], "big": {"data": "google", "butts": "sir mixalot"}}'
 
 
 @pytest.fixture(scope="function")
@@ -42,6 +55,22 @@ def test_store_media_sets_contents_from_temp_filename(
 
     kall = call().set_contents_from_filename(
         EXPECTED_FILENAME
+    )
+
+    assert store.Key.mock_calls[1] == kall.call_list()[1]
+
+
+def test_store_json_sets_contents_as_json_dumps(
+    s3store_fixture
+):
+    s3store = s3store_fixture
+    s3store.store_json(
+        TEST_FILENAME,
+        TEST_DICT
+    )
+
+    kall = call().set_contents_from_string(
+        EXPECTED_JSON
     )
 
     assert store.Key.mock_calls[1] == kall.call_list()[1]

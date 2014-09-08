@@ -2,10 +2,12 @@
 """Store Parker images and data on the filesystem."""
 
 import abc
+import json
 import os
-import fileops
+import time
 import boto
 from boto.s3.key import Key
+import fileops
 
 _filestore_instances = dict()
 _s3store_instances = dict()
@@ -129,7 +131,12 @@ class S3Store(StoreBase):
 
     def store_json(self, filename, dict_to_store):
         """Store json files."""
+        epoch = int(time.time() * (10 ** 6))
         s3_key = Key(self.bucket)
-        # s3_key.key = os.path.join(
-        #     '/images',
-        #     filenam
+        s3_key.key = os.path.join(
+            '/data',
+            "%s_%s.data" % (filename, epoch)
+        )
+        s3_key.set_contents_from_string(
+            json.dumps(dict_to_store)
+        )
