@@ -34,7 +34,7 @@ def crawler(site, uri=None):
     """Crawl URI using site config."""
     config = load_site_config(site)
     model = _get_model('crawl', config, uri)
-    visited_set, visited_uri_set, consume_set, crawl_set = _get_site_sets(
+    visited_set, visited_uri_set, consume_set, crawl_set = get_site_sets(
         site, config
     )
 
@@ -72,11 +72,12 @@ def killer(site):
     crawl_q.empty()
     consume_q.empty()
 
-    for site_set in _get_site_sets(site, config):
+    for site_set in get_site_sets(site, config):
         site_set.destroy()
 
 
-def _get_site_sets(site, config):
+def get_site_sets(site, config=None):
+    config = config or {}
     return (
         get_redisset(
             "%s:%s" % (site, 'visited'),

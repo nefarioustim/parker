@@ -5,7 +5,7 @@ import os.path
 import shutil
 import pytest
 from parker import fileops
-from parker.workers import consumer, crawler, killer
+from parker.workers import consumer, crawler, killer, get_site_sets
 from parker.queues import crawl_q, consume_q
 from test_client import client_fixture, client_fixture_crawl
 import utils
@@ -35,6 +35,7 @@ EXPECTED_MEDIA_FILE = os.path.join(
     'WW-412852_0.jpg'
 )
 EXPECTED_JOBS = 298
+EXPECTED_TTL = 259200
 
 
 def test_consumer_writes_data_to_file(client_fixture):
@@ -81,3 +82,17 @@ def test_crawler_adds_links_to_consume_queue(client_fixture):
     assert len(consume_q.jobs) == 1
 
     killer(TEST_SITE)
+
+
+@pytest.mark.skipif(not utils.is_online(), reason="Currently offline.")
+def test_crawler_obtains_expiry_from_config(client_fixture):
+    killer(TEST_SITE)
+    crawler(TEST_SITE, TEST_URI)
+    visited_set, visited_uri_set, consume_set, crawl_set = get_site_sets(
+        TEST_SITE
+    )
+
+    assert visited_set.ttl() <= EXPECTED_TTL
+    assert visited_uri_set.ttl() <= EXPECTED_TTL
+    assert consume_set.ttl() <= EXPECTED_TTL
+    assert crawl_set.ttl() <= EXPECTED_TTL
