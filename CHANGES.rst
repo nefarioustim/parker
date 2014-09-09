@@ -1,3 +1,22 @@
+0.9.0
+----------------------------------------
+
+- Completely refactored storage and added the ability to store consumed data
+  to Amazon's S3 service. This requires your AWS Access Key ID to be set up
+  as an environment variable.
+
+- Added an 'unclassified' path prefix for sites configured without a
+  classification.
+
+- Added a 'crawl_uri_filters' site configuration list which should contain
+  regular expressions to match any URIs you would like filtered out of the
+  crawl.
+
+- Added a 'seconds_until_expire' site configuration value which sets the expiry
+  of the sets stored in Redis. Would recommend you ensure this is set to an
+  interval similar to how long it takes Parker to crawl your site so that when
+  it finishes, the Sets will expire shortly after to save memory.
+
 0.8.0
 ----------------------------------------
 
