@@ -1,3 +1,9 @@
+0.9.1
+----------------------------------------
+
+- Fixed an issue where the S3 bucket configuration wasn't being passed
+  through.
+
 0.9.0
 ----------------------------------------
 
