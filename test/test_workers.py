@@ -40,7 +40,7 @@ EXPECTED_TTL = 259200
 
 def test_consumer_writes_data_to_file(client_fixture):
     """Test workers.consumer writes correct data to file system."""
-    consumer(TEST_SITE, TEST_URI, method=TEST_METHOD)
+    consumer(TEST_SITE, TEST_URI)
 
     assert os.path.isfile(EXPECTED_MEDIA_FILE)
 

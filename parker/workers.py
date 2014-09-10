@@ -24,7 +24,8 @@ def consumer(site, uri):
     model = _get_model('consume', config, uri)
     consumestore = get_consumestore(
         model=model,
-        method=_config.get('storage', 'file')
+        method=_config.get('storage', 'file'),
+        bucket=_config.get('s3_data_bucket', None)
     )
     consumestore.save_media()
     consumestore.save_data()
