@@ -1,5 +1,4 @@
 {
     "storage": "file",
-    "s3_bucket_location": "EU",
-    "s3_data_bucket": "crawldata.instasupply.com"
+    "s3_data_bucket": "crawldata.mydomain.com"
 }
