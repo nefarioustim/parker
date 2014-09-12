@@ -1,3 +1,8 @@
+0.9.3
+----------------------------------------
+
+- Fixed an issue where images pushed to S3 lost their file extension.
+
 0.9.2
 ----------------------------------------
 
