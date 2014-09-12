@@ -111,11 +111,6 @@ class S3Store(StoreBase):
 
     def store_media(self, filename, mediafile):
         """Store media files."""
-        s3_key = Key(self.bucket)
-        s3_key.key = os.path.join(
-            '/images',
-            filename
-        )
         temp_filename = os.path.join(
             '/tmp',
             filename
@@ -124,6 +119,13 @@ class S3Store(StoreBase):
             os.path.dirname(temp_filename)
         )
         mediafile.fetch_to_file(temp_filename)
+        s3_key = Key(self.bucket)
+        s3_key.key = os.path.join(
+            '/images',
+            "%s.%s" % (filename, mediafile.fileext)
+            if mediafile.fileext is not None
+            else filename
+        )
         s3_key.set_contents_from_filename(
             mediafile.filename
         )

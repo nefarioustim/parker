@@ -54,7 +54,7 @@ def test_store_media_sets_contents_from_temp_filename(
     )
 
     kall = call().set_contents_from_filename(
-        EXPECTED_FILENAME
+        EXPECTED_FILENAME + '.jpg'
     )
 
     assert store.Key.mock_calls[1] == kall.call_list()[1]
