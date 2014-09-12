@@ -125,7 +125,7 @@ class S3Store(StoreBase):
         )
         mediafile.fetch_to_file(temp_filename)
         s3_key.set_contents_from_filename(
-            temp_filename
+            mediafile.filename
         )
         os.remove(mediafile.filename)
 
