@@ -1,3 +1,8 @@
+0.9.2
+----------------------------------------
+
+- Fixed an issue where pushing images to S3 where using the wrong filename.
+
 0.9.1
 ----------------------------------------
 
