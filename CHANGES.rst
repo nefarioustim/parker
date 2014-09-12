@@ -1,3 +1,8 @@
+0.9.6
+----------------------------------------
+
+- Fixed a bug where the image path in the JSON was not updated according to S3.
+
 0.9.5
 ----------------------------------------
 
