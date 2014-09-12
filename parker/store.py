@@ -130,6 +130,9 @@ class S3Store(StoreBase):
             mediafile.filename
         )
         os.remove(mediafile.filename)
+        mediafile.filename = s3_key.generate_url(
+            expires_in=0, query_auth=False
+        )
 
     def store_json(self, filename, dict_to_store):
         """Store json files."""
