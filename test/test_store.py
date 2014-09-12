@@ -70,7 +70,9 @@ def test_store_json_sets_contents_as_json_dumps(
     )
 
     kall = call().set_contents_from_string(
-        EXPECTED_JSON
+        EXPECTED_JSON,
+        headers={'Content-Type': 'application/json; charset=UTF-8'},
+        replace=True
     )
 
     assert store.Key.mock_calls[1] == kall.call_list()[1]

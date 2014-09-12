@@ -140,5 +140,7 @@ class S3Store(StoreBase):
             "%s_%s.json" % (filename, epoch)
         )
         s3_key.set_contents_from_string(
-            json.dumps(dict_to_store)
+            json.dumps(dict_to_store),
+            headers={'Content-Type': 'application/json; charset=UTF-8'},
+            replace=True
         )
