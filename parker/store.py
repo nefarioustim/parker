@@ -137,7 +137,7 @@ class S3Store(StoreBase):
         s3_key = Key(self.bucket)
         s3_key.key = os.path.join(
             '/data',
-            "%s_%s.data" % (filename, epoch)
+            "%s_%s.json" % (filename, epoch)
         )
         s3_key.set_contents_from_string(
             json.dumps(dict_to_store)

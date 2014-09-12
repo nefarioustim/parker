@@ -1,3 +1,9 @@
+0.9.4
+----------------------------------------
+
+- Fixed an issue where JSON documents had the wrong file extension when pushed
+  to S3.
+
 0.9.3
 ----------------------------------------
 
